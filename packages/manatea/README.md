@@ -2,6 +2,8 @@
 
 Predictable micro state manager.
 
+This package has no dependencies and weights 538 B (329 B gzipped).
+
 ## How to use
 
 ### Create store

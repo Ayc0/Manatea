@@ -6,6 +6,12 @@
   "main": "dist/manatea.js",
   "module": "dist/manatea.m.js",
   "typings": "dist/index.d.ts",
+  "keywords": [
+    "javascript",
+    "state",
+    "immutable",
+    "lightweight"
+  ],
   "scripts": {
     "start": "microbundle watch",
     "build": "microbundle"

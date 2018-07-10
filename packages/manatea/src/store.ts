@@ -9,44 +9,49 @@ const stores: Stores = {};
 
 type Change = (value: Value, stores: Stores) => any;
 
+const defineProperty = Object.defineProperty;
+
 const getListener = (instance: Instance, fn: Listener) => {
-  const id = instance.addListener(fn);
-  const listener = () => instance.removeListener(id);
-  Object.defineProperty(listener, "listening", {
-    get: () => instance.listeners.has(id)
+  const id = instance.on(fn);
+  const listener = () => instance.off(id);
+  defineProperty(listener, "listening", {
+    get: () => instance.l(id)
   });
   return listener;
 };
 
-const getStore = (instance: Instance, key: Key, enumerable: boolean) => {
+const getStore = (instance: Instance, name: string, enumerable: boolean) => {
+  const key: Key = name || Object.getOwnPropertyNames(stores).length;
   const output = (...args: any[]) => {
     if (args.length === 0) {
       return instance.value;
     }
-    const change: Value | Change = args[0];
+    let change: Value | Change = args[0];
     if (typeof change === "function") {
+      // If a function is passed (value, store) => newValue
       const newValue: Value = change(instance.value, stores);
       if (newValue instanceof Promise) {
+        // If this function returns a Promise, wait for the resolution
         return newValue.then((v: Value) => {
           instance.value = v;
+          return instance.value;
         });
       }
-      instance.value = newValue;
-    } else {
-      instance.value = change;
+      change = newValue;
     }
-    return Promise.resolve();
+    instance.value = change;
+    return Promise.resolve(instance.value);
   };
 
-  Object.defineProperty(output, "on", {
+  defineProperty(output, "on", {
     value: (fn: Listener) => getListener(instance, fn)
   });
 
-  Object.defineProperty(output, "delete", {
+  defineProperty(output, "delete", {
     value: instance.delete
   });
 
-  Object.defineProperty(stores, key, {
+  defineProperty(stores, key, {
     enumerable,
     value: output
   });

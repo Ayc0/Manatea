@@ -3,56 +3,43 @@ export type Value = null | string | number | boolean | any[] | Object | Map<any,
 export type Listener = (value: Value) => void;
 
 export interface Instance {
-  _value: Value;
   value: Value;
-  listeners: Map<number, Listener>;
-  addListener: (fn: Listener) => number;
-  removeListener: (id: number) => boolean;
+  l: (id: number) => boolean;
+  on: (fn: Listener) => number;
+  off: (id: number) => boolean;
   delete: () => void;
 }
 
-interface Instances {
-  [key: number]: Instance;
-  [key: string]: Instance;
-}
-
-const instances: Instances = {};
-
 const createInstance = (name: string, initialValue: Value, enumerable: boolean) => {
-  const key: Key = name || Object.getOwnPropertyNames(instances).length;
-  if (key in instances) {
-    throw new Error(`"${key}" is already a named store.`);
-  }
-  const instance: Instance = {
-    _value: initialValue,
+  const listeners = new Map();
+  let value: Value = initialValue;
+
+  let instance: Instance | void = {
     get value() {
-      return instance._value;
+      return value;
     },
     set value(newValue) {
       if (newValue === undefined) {
         return;
       }
       Object.freeze(newValue);
-      instance.listeners.forEach((fn: Listener) => fn(newValue));
-      instance._value = newValue;
+      listeners.forEach((fn: Listener) => fn(newValue));
+      value = newValue;
     },
-    listeners: new Map(),
-    addListener: fn => {
-      const id: number = instance.listeners.size;
-      instance.listeners.set(id, fn);
+    l: id => listeners.has(id),
+    on: fn => {
+      const id: number = listeners.size;
+      listeners.set(id, fn);
       return id;
     },
-    removeListener: id => instance.listeners.delete(id),
+    off: id => listeners.delete(id),
     delete: () => {
-      instance.listeners.clear();
-      delete instances[key];
+      listeners.clear();
+      instance = undefined;
     }
   };
-  Object.defineProperty(instances, key, {
-    enumerable,
-    value: instance
-  });
-  return { instance, key };
+
+  return instance;
 };
 
 export default createInstance;

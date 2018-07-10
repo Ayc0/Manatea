@@ -1,6 +1,15 @@
-const stores = {};
+import { Key, Value, Instance, Listener } from "./instance";
 
-const getListener = (instance, fn) => {
+interface Stores {
+  [key: string]: Value;
+  [key: number]: Value;
+}
+
+const stores: Stores = {};
+
+type Change = (value: Value, stores: Stores) => any;
+
+const getListener = (instance: Instance, fn: Listener) => {
   const id = instance.addListener(fn);
   const listener = () => instance.removeListener(id);
   Object.defineProperty(listener, "listening", {
@@ -9,16 +18,16 @@ const getListener = (instance, fn) => {
   return listener;
 };
 
-const getStore = (instance, key, enumerable) => {
-  const output = (...args) => {
+const getStore = (instance: Instance, key: Key, enumerable: boolean) => {
+  const output = (...args: any[]) => {
     if (args.length === 0) {
       return instance.value;
     }
-    const change = args[0];
+    const change: Value | Change = args[0];
     if (typeof change === "function") {
-      const newValue = change(instance.value, stores);
+      const newValue: Value = change(instance.value, stores);
       if (newValue instanceof Promise) {
-        return newValue.then(v => {
+        return newValue.then((v: Value) => {
           instance.value = v;
         });
       }
@@ -30,7 +39,7 @@ const getStore = (instance, key, enumerable) => {
   };
 
   Object.defineProperty(output, "on", {
-    value: fn => getListener(instance, fn)
+    value: (fn: Listener) => getListener(instance, fn)
   });
 
   Object.defineProperty(output, "delete", {

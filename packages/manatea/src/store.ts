@@ -1,8 +1,7 @@
-import { Key, Value, Instance, Listener } from "./instance";
+import { Value, Instance, Listener } from "./instance";
 
 interface Stores {
   [key: string]: Value;
-  [key: number]: Value;
 }
 
 const stores: Stores = {};
@@ -20,8 +19,7 @@ const getListener = (instance: Instance, fn: Listener) => {
   return listener;
 };
 
-const getStore = (instance: Instance, name: string, enumerable: boolean) => {
-  const key: Key = name || Object.getOwnPropertyNames(stores).length;
+const getStore = (instance: Instance, name: string) => {
   const output = (...args: any[]) => {
     if (args.length === 0) {
       return instance.value;
@@ -51,10 +49,10 @@ const getStore = (instance: Instance, name: string, enumerable: boolean) => {
     value: instance.delete
   });
 
-  defineProperty(stores, key, {
-    enumerable,
-    value: output
-  });
+  // If store is named, adds it in global stores
+  if (name) {
+    stores[name] = output;
+  }
 
   return output;
 };

@@ -1,4 +1,3 @@
-export type Key = string | number;
 export type Value = null | string | number | boolean | any[] | Object | Map<any, any> | Set<any>;
 export type Listener = (value: Value) => void;
 
@@ -10,7 +9,7 @@ export interface Instance {
   delete: () => void;
 }
 
-const createInstance = (name: string, initialValue: Value, enumerable: boolean) => {
+const createInstance = (name: string, initialValue: Value) => {
   const listeners = new Map();
   let value: Value = initialValue;
 

@@ -1,5 +1,5 @@
 export type Key = string | number;
-export type Value = string | number | any[] | {} | Map<any, any> | Set<any>;
+export type Value = null | string | number | boolean | any[] | Object | Map<any, any> | Set<any>;
 export type Listener = (value: Value) => void;
 
 export interface Instance {
@@ -29,6 +29,9 @@ const createInstance = (name: string, initialValue: Value, enumerable: boolean) 
       return instance._value;
     },
     set value(newValue) {
+      if (newValue === undefined) {
+        return;
+      }
       Object.freeze(newValue);
       instance.listeners.forEach((fn: Listener) => fn(newValue));
       instance._value = newValue;

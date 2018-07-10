@@ -1,0 +1,18 @@
+{
+  "name": "manatea",
+  "version": "0.1.0",
+  "source": "src/index.js",
+  "umd:main": "build/manatea.umd.js",
+  "main": "build/manatea.js",
+  "module": "build/manatea.m.js",
+  "types": "index.d.ts",
+  "devDependencies": {
+    "microbundle": "^0.5.1"
+  },
+  "scripts": {
+    "start": "microbundle watch",
+    "test:flow": "flow",
+    "build": "microbundle",
+    "release": "yarn -s build && npm publish --access public"
+  }
+}

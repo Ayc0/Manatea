@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "rootDir": "src",
+    "jsx": "react",
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "declaration": true
+  }
+}

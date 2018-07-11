@@ -9,13 +9,13 @@ This package has no dependencies and weights 538 B (329 B gzipped).
 ### Create store
 
 ```js
-import manatea from "manatea";
+import createStore from "manatea";
 
 // Defining a store
-const timer = manatea(0);
+const timer = createStore(0);
 
 // Defining a named store
-const counter = manatea(0, "counter");
+const counter = createStore(0, "counter");
 ```
 
 ### Read store's value
@@ -75,7 +75,7 @@ listener.listening; // false
 Every stores' value are immutable:
 
 ```js
-const store = manatea([]);
+const store = createStore([]);
 store(value => value.push(1)); // Throws an error
 store(value => [...value, 1]); // OKAY
 ```

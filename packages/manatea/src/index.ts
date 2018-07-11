@@ -1,4 +1,4 @@
-export type Value = null | string | number | boolean | any[] | Object | Map<any, any> | Set<any>;
+export type Value = null | string | number | boolean | symbol | Date | any[] | object | Map<any, any> | Set<any>;
 type ListenerFn = (value: Value) => void;
 
 export interface Listener {
@@ -13,16 +13,17 @@ interface Stores {
 type Change = (value: Value, stores?: Stores) => Value | Promise<Value>;
 
 export interface Store {
-  (change?: Change): Value | Promise<Value>;
+  (): Value;
+  (change: Change): Promise<Value>;
   on: (fn: ListenerFn) => Listener;
   clear: () => boolean;
 }
 
-const stores: Stores = {};
+export const store: Stores = {};
 
 const defineProperty = Object.defineProperty;
 
-const manatea = (initialValue: Value, name?: string) => {
+export const createStore = (initialValue: Value, name?: string) => {
   let listeners = new Map();
   let value = initialValue;
   const setValue = (newValue: Value) => {
@@ -34,12 +35,12 @@ const manatea = (initialValue: Value, name?: string) => {
   };
 
   // @ts-ignore
-  const store: Store = function(change?: Value | Change) {
+  const localStore: Store = function(change) {
     if (change === undefined) {
       return value;
     }
     if (typeof change === "function") {
-      const newValue = change(value, stores);
+      const newValue = change(value, store);
       if (newValue instanceof Promise) {
         return newValue.then(v => {
           setValue(v);
@@ -52,7 +53,7 @@ const manatea = (initialValue: Value, name?: string) => {
     return Promise.resolve(value);
   };
 
-  defineProperty(store, "on", {
+  defineProperty(localStore, "on", {
     value: (fn: ListenerFn) => {
       const key = listeners.size;
       listeners.set(key, fn);
@@ -64,14 +65,12 @@ const manatea = (initialValue: Value, name?: string) => {
     }
   });
 
-  defineProperty(store, "clear", {
+  defineProperty(localStore, "clear", {
     value: () => listeners.clear()
   });
 
   if (name) {
-    stores[name] = store;
+    store[name] = localStore;
   }
-  return store;
+  return localStore;
 };
-
-export default manatea;

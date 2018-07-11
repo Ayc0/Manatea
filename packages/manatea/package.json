@@ -5,7 +5,8 @@
   "umd:main": "dist/manatea.umd.js",
   "main": "dist/manatea.js",
   "module": "dist/manatea.m.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
   "keywords": [
     "javascript",
     "state",

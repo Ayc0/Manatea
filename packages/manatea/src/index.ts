@@ -1,9 +1,22 @@
 export type Value = null | string | number | boolean | any[] | Object | Map<any, any> | Set<any>;
-export type Listener = (value: Value) => void;
+type ListenerFn = (value: Value) => void;
+
+export interface Listener {
+  (): boolean;
+  listening: boolean;
+}
+
 interface Stores {
   [key: string]: any;
 }
-type Store = (value: Value, stores: Stores) => Value | Promise<Value>;
+
+type Change = (value: Value, stores?: Stores) => Value | Promise<Value>;
+
+export interface Store {
+  (change?: Change): Value | Promise<Value>;
+  on: (fn: ListenerFn) => Listener;
+  clear: () => boolean;
+}
 
 const stores: Stores = {};
 
@@ -20,8 +33,9 @@ const manatea = (initialValue: Value, name?: string) => {
     }
   };
 
-  const store = function(change: Value | Store) {
-    if (arguments.length === 0) {
+  // @ts-ignore
+  const store: Store = function(change?: Value | Change) {
+    if (change === undefined) {
       return value;
     }
     if (typeof change === "function") {
@@ -39,7 +53,7 @@ const manatea = (initialValue: Value, name?: string) => {
   };
 
   defineProperty(store, "on", {
-    value: (fn: Listener) => {
+    value: (fn: ListenerFn) => {
       const key = listeners.size;
       listeners.set(key, fn);
       const listener = () => listeners.delete(key);

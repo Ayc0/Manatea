@@ -1,59 +1,59 @@
-export type Value = null | string | number | boolean | symbol | Date | any[] | object | Map<any, any> | Set<any>;
-type ListenerFn = (value: Value) => void;
+export type Tea = null | string | number | boolean | symbol | Date | any[] | object | Map<any, any> | Set<any>;
+type ListenerFn = (tea: Tea) => void;
 
 export interface Listener {
   (): boolean;
   listening: boolean;
 }
 
-interface Stores {
+interface Store {
   [key: string]: any;
 }
 
-type Change = (value: Value, stores?: Stores) => Value | Promise<Value>;
+type Change = (tea: Tea, store?: Store) => Tea | Promise<Tea>;
 
-export interface Store {
-  (): Value;
-  (change: Change): Promise<Value>;
+export interface Cup {
+  (): Tea;
+  (change: Change): Promise<Tea>;
   on: (fn: ListenerFn) => Listener;
   clear: () => boolean;
 }
 
-export const store: Stores = {};
+export const store: Store = {};
 
 const defineProperty = Object.defineProperty;
 
-export const createStore = (initialValue: Value, name?: string) => {
+export const createCup = (initialTea: Tea, name?: string) => {
   let listeners = new Map();
-  let value = initialValue;
-  const setValue = (newValue: Value) => {
-    if (newValue !== undefined && value !== newValue) {
-      value = newValue;
-      Object.freeze(value);
-      listeners.forEach(fn => fn(value));
+  let tea = initialTea;
+  const setTea = (newTea: Tea) => {
+    if (newTea !== undefined && tea !== newTea) {
+      tea = newTea;
+      Object.freeze(tea);
+      listeners.forEach(fn => fn(tea));
     }
   };
 
   // @ts-ignore
-  const localStore: Store = function(change) {
+  const cup: Cup = function(change) {
     if (change === undefined) {
-      return value;
+      return tea;
     }
     if (typeof change === "function") {
-      const newValue = change(value, store);
-      if (newValue instanceof Promise) {
-        return newValue.then(v => {
-          setValue(v);
-          return value;
+      const newTea = change(tea, store);
+      if (newTea instanceof Promise) {
+        return newTea.then(v => {
+          setTea(v);
+          return tea;
         });
       }
-      change = newValue;
+      change = newTea;
     }
-    setValue(change);
-    return Promise.resolve(value);
+    setTea(change);
+    return Promise.resolve(tea);
   };
 
-  defineProperty(localStore, "on", {
+  defineProperty(cup, "on", {
     value: (fn: ListenerFn) => {
       const key = listeners.size;
       listeners.set(key, fn);
@@ -65,12 +65,12 @@ export const createStore = (initialValue: Value, name?: string) => {
     }
   });
 
-  defineProperty(localStore, "clear", {
+  defineProperty(cup, "clear", {
     value: () => listeners.clear()
   });
 
   if (name) {
-    store[name] = localStore;
+    store[name] = cup;
   }
-  return localStore;
+  return cup;
 };

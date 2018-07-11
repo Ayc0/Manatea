@@ -6,57 +6,57 @@ This package has no dependencies and weights 538 B (329 B gzipped).
 
 ## How to use
 
-### Create store
+### Create cup
 
 ```js
-import createStore from "manatea";
+import { createCup } from "manatea";
 
-// Defining a store
-const timer = createStore(0);
+// Defining a cup
+const timer = createCup(0);
 
-// Defining a named store
-const counter = createStore(0, "counter");
+// Defining a named cup
+const counter = createCup(0, "counter");
 ```
 
-### Read store's value
+### Read cup's tea
 
 ```js
-// Accessing the value
+// Accessing the tea
 counter(); // 2;
 ```
 
-### Update store's value
+### Update cup's tea
 
 ```js
 counter(1);
 
-counter(value => value + 1);
+counter(tea => tea + 1);
 
 // Supports async functions
-counter(async value => {
+counter(async tea => {
   await sleep(1);
-  return value + 5;
+  return tea + 5;
 });
 
-timer((value, namedStores) => {
-  const counterValue = namedStores.counter();
-  // "counter" is in the store because it was previously named
-  // on the opposite, "timer" won't ever be in the store.
-  return value + counterValue;
+timer((tea, namedStores) => {
+  const counterTea = namedStores.counter();
+  // "counter" is in the cup because it was previously named
+  // on the opposite, "timer" won't ever be in the cup.
+  return tea + counterTea;
 });
 
 // Every update functions return promises
-counter(value => value + 1).then(value => console.log(value));
+counter(tea => tea + 1).then(tea => console.log(tea));
 ```
 
 ### Store's listeners
 
 ```js
 // Add listener
-const listener = counter.on(value => console.log(value));
+const listener = counter.on(tea => console.log(tea));
 ```
 
-### Remove store's listener
+### Remove cup's listener
 
 ```js
 listener.listening; // true
@@ -72,10 +72,10 @@ listener.listening; // false
 
 ### Immutability
 
-Every stores' value are immutable:
+Every stores' tea are immutable:
 
 ```js
-const store = createStore([]);
-store(value => value.push(1)); // Throws an error
-store(value => [...value, 1]); // OKAY
+const cup = createCup([]);
+cup(tea => tea.push(1)); // Throws an error
+cup(tea => [...tea, 1]); // OKAY
 ```

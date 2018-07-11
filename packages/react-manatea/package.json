@@ -1,6 +1,6 @@
 {
   "name": "react-manatea",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "source": "src/index.tsx",
   "umd:main": "dist/react-manatea.umd.js",
   "main": "dist/react-manatea.js",
@@ -11,7 +11,7 @@
     "build": "microbundle"
   },
   "dependencies": {
-    "manatea": "^0.2.0"
+    "manatea": "^0.2.1"
   },
   "devDependencies": {
     "@types/react": "^16.4.6",

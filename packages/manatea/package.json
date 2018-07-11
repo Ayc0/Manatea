@@ -17,7 +17,6 @@
     "build": "microbundle"
   },
   "devDependencies": {
-    "microbundle": "^0.5.1",
-    "rollup-plugin-es3": "^1.1.0"
+    "microbundle": "^0.5.1"
   }
 }

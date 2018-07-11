@@ -3,7 +3,7 @@ export type Listener = (value: Value) => void;
 interface Stores {
   [key: string]: any;
 }
-type Change = (value: Value, stores: Stores) => any;
+type Store = (value: Value, stores: Stores) => Value | Promise<Value>;
 
 const stores: Stores = {};
 
@@ -20,7 +20,7 @@ const manatea = (initialValue: Value, name?: string) => {
     }
   };
 
-  const store = function(change: Value | Change) {
+  const store = function(change: Value | Store) {
     if (arguments.length === 0) {
       return value;
     }

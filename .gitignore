@@ -3,3 +3,4 @@ build/
 .rpt2_cache/
 dist/
 *.log
+*.lerna_backup

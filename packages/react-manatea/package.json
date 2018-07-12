@@ -1,6 +1,6 @@
 {
   "name": "react-manatea",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "source": "src/index.tsx",
   "umd:main": "dist/react-manatea.umd.js",
   "main": "dist/react-manatea.js",

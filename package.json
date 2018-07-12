@@ -1,5 +1,10 @@
 {
-	"devDependencies": {
-		"lerna": "^2.11.0"
-	}
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^2.11.0"
+  }
 }

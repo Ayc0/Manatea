@@ -1,4 +1,5 @@
 {
+  "private": true,
   "dependencies": {
     "manatea": "^0.2.1"
   },

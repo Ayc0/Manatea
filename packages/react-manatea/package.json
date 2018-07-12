@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "start": "microbundle watch",
-    "build": "microbundle"
+    "build": "microbundle && sed -i 's/t.react/t.React/g' dist/react-manatea.umd.js"
   },
   "devDependencies": {
     "@types/react": "^16.4.6",

@@ -1,6 +1,6 @@
 {
   "name": "react-manatea",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "source": "src/index.tsx",
   "umd:main": "dist/react-manatea.umd.js",
   "main": "dist/react-manatea.js",
@@ -18,6 +18,6 @@
   },
   "peerDependencies": {
     "manatea": "^0.3.4",
-    "react": "^16.8.3"
+    "react": "^16.8.2"
   }
 }

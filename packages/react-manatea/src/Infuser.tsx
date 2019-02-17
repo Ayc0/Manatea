@@ -12,7 +12,7 @@ interface State {
   tea: Tea;
 }
 
-export default class Manatee extends React.Component<Props, State> {
+export default class Infuser extends React.Component<Props, State> {
   state: State = { tea: getCup(this.props.cup)() };
   listener: Listener = getCup(this.props.cup).on((tea: Tea) => this.setState({ tea }));
 

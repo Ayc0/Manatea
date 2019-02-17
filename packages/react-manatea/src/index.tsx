@@ -1,2 +1,2 @@
-export { default as Manatee } from "./Manatee";
 export { default as infuse } from "./infuse";
+export { default as Infuser } from "./Infuser";

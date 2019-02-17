@@ -12,7 +12,9 @@ const useInfuser: UseInfuser = cup => {
     () => {
       const listener: Listener = getCup(cup).on((tea: Tea) => setTea(tea));
       setTea(getCup(cup)());
-      return listener;
+      return () => {
+        listener();
+      };
     },
     [cup]
   );

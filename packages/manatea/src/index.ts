@@ -80,6 +80,9 @@ export const createCup = (initialTea: Tea, name?: string) => {
   });
 
   if (name) {
+    if (store[name]) {
+      throw new Error('Cannot override existing named cup')
+    }
     store[name] = cup;
   }
   return cup;

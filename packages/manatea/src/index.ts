@@ -10,7 +10,7 @@ interface Store {
   [key: string]: any;
 }
 
-type Change = (tea: Tea, store?: Store) => Tea | Promise<Tea>;
+type Change = ((tea: Tea, store?: Store) => Tea | Promise<Tea>) | Tea;
 
 export interface Cup {
   (): Tea;

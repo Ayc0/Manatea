@@ -29,7 +29,7 @@ const Counter = infuse('counter')(({ tea: count }) => (
 ));
 ```
 
-## infuser
+## Infuser
 
 ```js
 import React from 'react';

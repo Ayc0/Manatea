@@ -1,6 +1,6 @@
 {
   "name": "manatea",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "source": "src/index.ts",
   "umd:main": "dist/manatea.umd.js",
   "main": "dist/manatea.js",

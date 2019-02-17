@@ -3,9 +3,9 @@ import { Cup, Tea, Listener } from "manatea";
 
 import getCup from "./getCup";
 
-type UseInfuse = (cup: string | Cup) => [Tea, (tea: Tea) => void];
+type UseInfuser = (cup: string | Cup) => [Tea, (tea: Tea) => void];
 
-const useInfuse: UseInfuse = cup => {
+const useInfuser: UseInfuser = cup => {
   const [tea, setTea] = React.useState(getCup(cup)());
 
   React.useEffect(
@@ -20,4 +20,4 @@ const useInfuse: UseInfuse = cup => {
   return [tea, (tea: Tea) => getCup(cup)(tea)];
 };
 
-export default useInfuse;
+export default useInfuser;

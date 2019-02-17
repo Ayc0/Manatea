@@ -1,4 +1,14 @@
-export type Tea = null | string | number | boolean | symbol | Date | any[] | object | Map<any, any> | Set<any>;
+export type Tea =
+  | null
+  | string
+  | number
+  | boolean
+  | symbol
+  | Date
+  | any[]
+  | object
+  | Map<any, any>
+  | Set<any>;
 type ListenerFn = (tea: Tea) => void;
 
 export interface Listener {
@@ -39,7 +49,7 @@ export const createCup = (initialTea: Tea, name?: string) => {
     if (change === undefined) {
       return tea;
     }
-    if (typeof change === "function") {
+    if (typeof change === 'function') {
       const newTea = change(tea, store);
       if (newTea instanceof Promise) {
         return newTea.then(v => {
@@ -53,20 +63,20 @@ export const createCup = (initialTea: Tea, name?: string) => {
     return Promise.resolve(tea);
   };
 
-  defineProperty(cup, "on", {
+  defineProperty(cup, 'on', {
     value: (fn: ListenerFn) => {
       const key = listeners.size;
       listeners.set(key, fn);
       const listener = () => listeners.delete(key);
-      defineProperty(listener, "listening", {
-        get: () => listeners.has(key)
+      defineProperty(listener, 'listening', {
+        get: () => listeners.has(key),
       });
       return listener;
-    }
+    },
   });
 
-  defineProperty(cup, "clear", {
-    value: () => listeners.clear()
+  defineProperty(cup, 'clear', {
+    value: () => listeners.clear(),
   });
 
   if (name) {

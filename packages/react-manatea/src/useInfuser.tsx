@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Cup, Tea, Listener } from "manatea";
+import * as React from 'react';
+import { Cup, Tea, Listener } from 'manatea';
 
-import getCup from "./getCup";
+import getCup from './getCup';
 
 type UseInfuser = (cup: string | Cup) => [Tea, (tea: Tea) => void];
 
@@ -16,7 +16,7 @@ const useInfuser: UseInfuser = cup => {
         listener();
       };
     },
-    [cup]
+    [cup],
   );
 
   return [tea, (tea: Tea) => getCup(cup)(tea)];

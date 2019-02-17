@@ -1,9 +1,9 @@
-import { store, Cup } from "manatea";
+import { store, Cup } from 'manatea';
 
 type GetCup = (cup: string | Cup) => Cup;
 
 const getCup: GetCup = cup => {
-  if (typeof cup === "string") {
+  if (typeof cup === 'string') {
     if (cup in store) {
       return store[cup];
     }

@@ -9,13 +9,13 @@ This package has no dependencies and weights 538 B (329 B gzipped).
 ### Create cup
 
 ```js
-import { createCup } from "manatea";
+import { createCup } from 'manatea';
 
 // Defining a cup
 const timer = createCup(0);
 
 // Defining a named cup
-const counter = createCup(0, "counter");
+const counter = createCup(0, 'counter');
 ```
 
 ### Read cup's tea

@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Cup, Tea, Listener } from "manatea";
+import * as React from 'react';
+import { Cup, Tea, Listener } from 'manatea';
 
-import getCup from "./getCup";
+import getCup from './getCup';
 
 interface State {
   tea: Tea;
@@ -17,6 +17,9 @@ export default (cup: Cup) => (component: React.ComponentType<any>) =>
       }
     }
     render() {
-      return React.createElement(component, { ...this.props, tea: this.state.tea });
+      return React.createElement(component, {
+        ...this.props,
+        tea: this.state.tea,
+      });
     }
   };

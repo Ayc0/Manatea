@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Cup, Tea, Listener } from "manatea";
+import * as React from 'react';
+import { Cup, Tea, Listener } from 'manatea';
 
-import getCup from "./getCup";
+import getCup from './getCup';
 
 interface Props {
   cup: Cup;
@@ -14,7 +14,9 @@ interface State {
 
 export default class Infuser extends React.Component<Props, State> {
   state: State = { tea: getCup(this.props.cup)() };
-  listener: Listener = getCup(this.props.cup).on((tea: Tea) => this.setState({ tea }));
+  listener: Listener = getCup(this.props.cup).on((tea: Tea) =>
+    this.setState({ tea }),
+  );
 
   componentWillUnmount() {
     if (this.listener.listening) {

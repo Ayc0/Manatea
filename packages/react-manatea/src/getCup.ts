@@ -1,6 +1,8 @@
 import { store, Cup } from "manatea";
 
-export default (cup: string | Cup) => {
+type GetCup = (cup: string | Cup) => Cup;
+
+const getCup: GetCup = cup => {
   if (typeof cup === "string") {
     if (cup in store) {
       return store[cup];
@@ -9,3 +11,5 @@ export default (cup: string | Cup) => {
   }
   return cup;
 };
+
+export default getCup;

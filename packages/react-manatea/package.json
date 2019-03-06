@@ -7,6 +7,10 @@
   "module": "dist/react-manatea.m.js",
   "typings": "dist/index.d.ts",
   "license": "MIT",
+  "author": "Ayc0",
+  "repository": "git@github.com:Ayc0/Manatea.git",
+  "bugs": "https://github.com/Ayc0/Manatea/issues",
+  "homepage": "https://github.com/Ayc0/Manatea/tree/master/packages/react-manatea#readme",
   "scripts": {
     "start": "microbundle watch",
     "build": "microbundle --name $npm_package_name --globals react=React",

@@ -2,7 +2,7 @@
 
 Predictable micro state manager.
 
-This package has no dependencies and weights 538 B (329 B gzipped).
+This package has no dependencies and weights less than 1kB (and less than 500B gzipped).
 
 ## How to use
 

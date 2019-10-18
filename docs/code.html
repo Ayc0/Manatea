@@ -1,56 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>React-Manatea</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>React-Manatea</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css">
-</head>
-
-<body>
-  <script>
-    function toggle(checked) {
-      if (checked) {
-        document.getElementById('code').style.display = ""
-      } else {
-        document.getElementById('code').style.display = "none"
+  <body>
+    <script>
+      function toggle(checked) {
+        if (checked) {
+          document.getElementById('code').style.display = '';
+        } else {
+          document.getElementById('code').style.display = 'none';
+        }
       }
-    }
-  </script>
-  <div id="wrapper">
-    <input type="checkbox" id="show" name="feature" value="show" onchange="toggle(this.checked)" />
-    <label for="show">Show source code</label>
-    <pre><code id="code" class="javascript" style="display: none"></code></pre>
-    <div id="root"></div>
-  </div>
+    </script>
+    <div id="wrapper">
+      <input
+        type="checkbox"
+        id="show"
+        name="feature"
+        value="show"
+        onchange="toggle(this.checked)"
+      />
+      <label for="show">Show source code</label>
+      <pre><code id="code" class="javascript" style="display: none"></code></pre>
+      <div id="root"></div>
+    </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script src="https://unpkg.com/react@16.4.1/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@16.4.1/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/manatea@0.3.0/dist/manatea.umd.js"></script>
-  <script src="https://unpkg.com/react-manatea@0.3.1/dist/react-manatea.umd.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/react@16.10.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.10.2/umd/react-dom.production.min.js"></script>
+    <script src="../packages/manatea/dist/manatea.umd.js"></script>
+    <script src="../packages/react-manatea/dist/react-manatea.umd.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-  <script id="source" type="text/babel"></script>
+    <script id="source" type="text/babel"></script>
 
-  <script>
-    hljs.initHighlightingOnLoad();
-    const rawText = decodeURIComponent(document.location.toString()).replace(/.*?content=/, '').replace(/¤/g, '\n');
-    const code = document.getElementById('code');
-    const source = document.getElementById('source');
-    const text = `const { createCup, store } = manatea;
-const { Manatee, infuse } = ReactManatea;
-` + rawText + `
+    <script>
+      hljs.initHighlightingOnLoad();
+      const rawText = decodeURIComponent(document.location.toString())
+        .replace(/.*?content=/, '')
+        .replace(/¤/g, '\n');
+      const code = document.getElementById('code');
+      const source = document.getElementById('source');
+      const text = `const { createCup, store } = window['manatea'];
+const { Infuser, infuse } = window['react-manatea'];
+${rawText}
 
 ReactDOM.render(<App />, document.getElementById('root'));
-`
-    console.log(text)
-    code.textContent = rawText;
-    source.textContent = text;
-  </script>
-
-</body>
-
+`;
+      console.log(text);
+      code.textContent = rawText;
+      source.textContent = text;
+    </script>
+  </body>
 </html>

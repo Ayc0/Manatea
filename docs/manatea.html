@@ -1,61 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
+  <body>
+    <script width="100%" transpile>
+      const add = tea => Math.min(50, tea + 1);
+      const subtract = tea => Math.max(0, tea - 1);
 
-<body>
-  <script width="100%" transpile>const add = tea => Math.min(50, tea + 1);
-    const subtract = tea => Math.max(0, tea - 1);
+      // Define store
+      const counter = createCup(0);
 
-    // Define store
-    const counter = createCup(0);
+      const increment = () => counter(add);
+      const decrement = () => counter(subtract);
 
-    const increment = () => counter(add);
-    const decrement = () => counter(subtract);
+      const App = () => (
+        <React.Fragment>
+          Unnamed counter <br />
+          <button onClick={increment}>+</button>
+          <button onClick={decrement}>-</button> <br />
+          <Infuser cup={counter}>{tea => tea}</Infuser>
+        </React.Fragment>
+      );
+    </script>
 
-    const App = () => (
-      <div>
-        Unnamed counter <br />
-        <button onClick={increment}>+</button>
-        <button onClick={decrement}>-</button> <br />
-        <Manatee cup={counter}>{tea => tea}</Manatee> <br />
-      </div>
-    );
-  </script>
+    <script transpile>
+      const add = tea => Math.min(50, tea + 1);
+      const subtract = tea => Math.max(0, tea - 1);
 
-  <script width="100%" transpile>const add = tea => Math.min(50, tea + 1);
-    const subtract = tea => Math.max(0, tea - 1);
+      const counter = createCup(0, 'counter');
 
-    const counter = createCup(0, "counter");
+      const increment = () => counter(add);
+      const decrement = () => counter(subtract);
 
-    const increment = () => counter(add);
-    const decrement = () => counter(subtract);
+      const App = () => (
+        <React.Fragment>
+          Named counter <br />
+          <button onClick={increment}>+</button>
+          <button onClick={decrement}>-</button> <br />
+          <Infuser cup="counter">{tea => tea}</Infuser>
+        </React.Fragment>
+      );
+    </script>
 
-    const App = () => (
-      <div>
-        Named counter <br />
-        <button onClick={increment}>+</button>
-        <button onClick={decrement}>-</button> <br />
-        <Manatee cup="counter">{tea => tea}</Manatee> <br />
-      </div>
-    );
-  </script>
-
-  <script>
-    [].forEach.call(document.querySelectorAll('script[transpile]'), script => {
-      const iframe = document.createElement('iframe');
-      iframe.setAttribute('frameborder', 0);
-      iframe.setAttribute('height', script.getAttribute('height'));
-      iframe.setAttribute('width', script.getAttribute('width'));
-      iframe.setAttribute('src', "code.html?content=" + script.textContent.replace(/\n(    )?/g, '¤'));
-      script.parentNode.replaceChild(iframe, script);
-    }); 
-  </script>
-</body>
-
+    <script>
+      [].forEach.call(
+        document.querySelectorAll('script[transpile]'),
+        script => {
+          const iframe = document.createElement('iframe');
+          iframe.setAttribute('frameborder', 0);
+          iframe.setAttribute('width', '100%');
+          iframe.setAttribute('height', '500px');
+          iframe.setAttribute(
+            'src',
+            'code.html?content=' +
+              script.textContent.replace(/\n(    )?/g, '¤'),
+          );
+          script.parentNode.replaceChild(iframe, script);
+        },
+      );
+    </script>
+  </body>
 </html>

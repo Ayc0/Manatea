@@ -5,7 +5,7 @@
 
 ```jsx
 const { createCup } = manatea;
-const { Manatee, infuse } = ReactManatea;
+const { Infuser, infuse } = ReactManatea;
 
 const add = tea => Math.min(50, tea + 1);
 const subtract = tea => Math.max(0, tea - 1);
@@ -23,14 +23,14 @@ const UnnamedCup = (() => {
       Unnamed counter <br />
       <button onClick={increment}>+</button>
       <button onClick={decrement}>-</button> <br />
-      <Manatee cup={counter}>{tea => tea}</Manatee> <br />
+      <Infuser cup={counter}>{tea => tea}</Infuser> <br />
     </div>
   );
 })();
 
 const NamedCup = (() => {
   // Define store
-  const counter = createCup(0, "counter");
+  const counter = createCup(0, 'counter');
 
   const increment = () => counter(add);
   const decrement = () => counter(subtract);
@@ -40,7 +40,7 @@ const NamedCup = (() => {
       Named counter <br />
       <button onClick={increment}>+</button>
       <button onClick={decrement}>-</button> <br />
-      <Manatee cup="counter">{tea => tea}</Manatee> <br />
+      <Infuser cup="counter">{tea => tea}</Infuser> <br />
     </div>
   );
 })();
@@ -65,7 +65,7 @@ const ConnectedUnnamedCup = (() => {
 
 const ConnectedNamedCup = (() => {
   // Define store
-  const counter = createCup(0, "connect");
+  const counter = createCup(0, 'connect');
 
   const increment = () => counter(add);
   const decrement = () => counter(subtract);
@@ -78,7 +78,7 @@ const ConnectedNamedCup = (() => {
       {tea} <br />
     </div>
   );
-  return infuse("connect")(component);
+  return infuse('connect')(component);
 })();
 
 const App = () => (
@@ -90,5 +90,5 @@ const App = () => (
   </React.Fragment>
 );
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 ```

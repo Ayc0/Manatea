@@ -1,27 +1,20 @@
 import * as React from 'react';
 import { Cup, Tea, Listener } from 'manatea';
 
-import getCup from './getCup';
+import { getCup } from './getCup';
 
-type UseInfuser = (cup: string | Cup) => [Tea, (tea: Tea) => void];
-
-const useInfuser: UseInfuser = cup => {
+export const useInfuser = <T extends Tea>(cup: string | Cup<T>) => {
   const [tea, setTea] = React.useState(getCup(cup)());
 
-  React.useEffect(
-    () => {
-      const listener: Listener = getCup(cup).on((tea: Tea) => setTea(tea));
-      setTea(getCup(cup)());
-      return () => {
-        if (listener.listening) {
-          listener();
-        }
-      };
-    },
-    [cup],
-  );
+  React.useEffect(() => {
+    const listener: Listener = getCup(cup).on((tea: Tea) => setTea(tea));
+    setTea(getCup(cup)());
+    return () => {
+      if (listener.listening) {
+        listener();
+      }
+    };
+  }, [cup]);
 
-  return [tea, (tea: Tea) => getCup(cup)(tea)];
+  return [tea, (tea: Tea) => getCup(cup)(tea)] as [T, (tea: T) => void];
 };
-
-export default useInfuser;

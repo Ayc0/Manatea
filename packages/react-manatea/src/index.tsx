@@ -1,3 +1,3 @@
-export { default as infuse } from './infuse';
-export { default as Infuser } from './Infuser';
-export { default as useInfuser } from './useInfuser';
+export { infuse } from './infuse';
+export { Infuser } from './Infuser';
+export { useInfuser } from './useInfuser';

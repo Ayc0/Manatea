@@ -1,15 +1,11 @@
-import { store, Cup } from 'manatea';
+import { store, Cup, Tea } from 'manatea';
 
-type GetCup = (cup: string | Cup) => Cup;
-
-const getCup: GetCup = cup => {
+export const getCup = <T extends Tea>(cup: string | Cup<T>) => {
   if (typeof cup === 'string') {
     if (cup in store) {
       return store[cup];
     }
     throw new Error(`"${cup}" isn't in your tea store"`);
   }
-  return cup;
+  return cup as Cup<T>;
 };
-
-export default getCup;

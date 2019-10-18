@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { Cup } from 'manatea';
+import { Cup, Tea } from 'manatea';
 
-import getCup from './getCup';
-import useInfuser from './useInfuser';
+import { getCup } from './getCup';
+import { useInfuser } from './useInfuser';
 
-export default (cup: Cup) => (component: React.ComponentType<any>) => {
+export const infuse = <T extends Tea>(cup: Cup<T>) => (
+  component: React.ComponentType<any>,
+) => {
   const Consumer = (props: any) => {
-    const [tea] = useInfuser(getCup(cup));
+    const [tea] = useInfuser<T>(getCup(cup));
 
     return React.createElement(component, {
       ...props,

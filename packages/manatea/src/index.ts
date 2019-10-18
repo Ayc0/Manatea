@@ -2,6 +2,7 @@ export type Tea =
   | null
   | string
   | number
+  | undefined
   | boolean
   | symbol
   | Date
@@ -9,7 +10,7 @@ export type Tea =
   | object
   | Map<any, any>
   | Set<any>;
-type ListenerFn = (tea: Tea) => void;
+type ListenerFn<T extends Tea> = (tea: T) => void;
 
 export interface Listener {
   (): boolean;
@@ -20,70 +21,70 @@ interface Store {
   [key: string]: any;
 }
 
-type Change = ((tea: Tea, store?: Store) => Tea | Promise<Tea>) | Tea;
+type Change<T extends Tea> = ((tea: T, store?: Store) => T | Promise<T>) | T;
 
-export interface Cup {
-  (): Tea;
-  (change: Change): Promise<Tea>;
-  on: (fn: ListenerFn) => Listener;
-  clear: () => boolean;
+export interface Cup<T extends Tea> {
+  (): T;
+  (change: Change<T>): Promise<T>;
+  on: (fn: ListenerFn<T>) => Listener;
+  clear: () => void;
 }
 
 export const store: Store = {};
 
-const defineProperty = Object.defineProperty;
-
-export const createCup = (initialTea: Tea, name?: string) => {
-  let listeners = new Map();
+export const createCup = <T extends Tea>(initialTea: T, name?: string) => {
+  let listeners = new Map<number, ListenerFn<T>>();
   let tea = initialTea;
-  const setTea = (newTea: Tea) => {
-    if (newTea !== undefined && tea !== newTea) {
-      tea = newTea;
-      Object.freeze(tea);
-      listeners.forEach(fn => fn(tea));
+
+  let isPreviousCancelled = { cancelled: false };
+
+  const setTea = (newTea: T) => {
+    if (tea === newTea) {
+      return;
     }
+    isPreviousCancelled.cancelled = true;
+    const isCancelled = { cancelled: false };
+    isPreviousCancelled = isCancelled;
+    tea = newTea;
+    Object.freeze(tea);
+    listeners.forEach(fn => {
+      if (isCancelled.cancelled) {
+        return;
+      }
+      fn(tea);
+    });
   };
 
-  // @ts-ignore
-  const cup: Cup = function(change) {
-    if (change === undefined) {
+  function cup(change: Change<T>) {
+    if (arguments.length === 0) {
       return tea;
     }
-    if (typeof change === 'function') {
-      const newTea = change(tea, store);
-      if (newTea instanceof Promise) {
-        return newTea.then(v => {
-          setTea(v);
-          return tea;
-        });
-      }
-      change = newTea;
-    }
-    setTea(change);
-    return Promise.resolve(tea);
+    return Promise.resolve(
+      typeof change === 'function' ? change(tea, store) : change,
+    ).then(newTea => {
+      setTea(newTea);
+      return tea;
+    });
+  }
+
+  cup.on = (fn: ListenerFn<T>) => {
+    const key = listeners.size;
+    listeners.set(key, fn);
+    const listener = () => listeners.delete(key);
+    Object.defineProperty(listener, 'listening', {
+      get: () => listeners.has(key),
+    });
+    return listener as Listener;
   };
 
-  defineProperty(cup, 'on', {
-    value: (fn: ListenerFn) => {
-      const key = listeners.size;
-      listeners.set(key, fn);
-      const listener = () => listeners.delete(key);
-      defineProperty(listener, 'listening', {
-        get: () => listeners.has(key),
-      });
-      return listener;
-    },
-  });
-
-  defineProperty(cup, 'clear', {
-    value: () => listeners.clear(),
-  });
+  cup.clear = () => listeners.clear();
 
   if (name) {
     if (store[name]) {
-      throw new Error('Cannot override existing named cup')
+      throw new Error('Cannot override existing named cup');
     }
     store[name] = cup;
   }
-  return cup;
+
+  return Object.freeze(cup);
 };

@@ -1,17 +1,15 @@
 import { ReactNode } from 'react';
 import { Cup, Tea } from 'manatea';
 
-import getCup from './getCup';
-import useInfuser from './useInfuser';
+import { getCup } from './getCup';
+import { useInfuser } from './useInfuser';
 
-interface Props {
-  cup: Cup;
-  children: (tea: Tea) => ReactNode;
+interface InfuserProps<T extends Tea> {
+  cup: string | Cup<T>;
+  children: (tea: T) => ReactNode;
 }
 
-const Infuser = (props: Props) => {
-  const [tea] = useInfuser(getCup(props.cup));
-  return props.children(tea);
+export const Infuser = <T extends Tea>({ cup, children }: InfuserProps<T>) => {
+  const [tea] = useInfuser<T>(getCup(cup));
+  return children(tea);
 };
-
-export default Infuser;

@@ -23,6 +23,6 @@
     "prepublish": "rm -rf dist && yarn -s build"
   },
   "devDependencies": {
-    "microbundle": "^0.9.0"
+    "microbundle": "^0.11.0"
   }
 }

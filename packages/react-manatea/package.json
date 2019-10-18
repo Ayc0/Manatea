@@ -17,8 +17,8 @@
     "prepublish": "rm -rf dist && yarn -s build"
   },
   "devDependencies": {
-    "@types/react": "^16.8.3",
-    "microbundle": "^0.9.0"
+    "@types/react": "^16.9.9",
+    "microbundle": "^0.11.0"
   },
   "peerDependencies": {
     "manatea": "^0.3.4",

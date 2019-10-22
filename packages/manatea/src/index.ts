@@ -33,7 +33,7 @@ export interface Cup<T extends Tea> {
 export const store: Store = {};
 
 export const createCup = <T extends Tea>(initialTea: T, name?: string) => {
-  let listeners = new Map<number, ListenerFn<T>>();
+  let listeners = new Set<ListenerFn<T>>();
   let tea = initialTea;
 
   let isPreviousCancelled = { cancelled: false };
@@ -68,11 +68,10 @@ export const createCup = <T extends Tea>(initialTea: T, name?: string) => {
   }
 
   cup.on = (fn: ListenerFn<T>) => {
-    const key = listeners.size;
-    listeners.set(key, fn);
-    const listener = () => listeners.delete(key);
+    listeners.add(fn);
+    const listener = () => listeners.delete(fn);
     Object.defineProperty(listener, 'listening', {
-      get: () => listeners.has(key),
+      get: () => listeners.has(fn),
     });
     return listener as Listener;
   };

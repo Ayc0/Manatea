@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
+    "lib": ["esnext"],
     "target": "ES2017",
     "rootDir": "src",
     "removeComments": true,
     "sourceMap": true,
     "strict": true,
     "declaration": true
-  },
-  "exclude": ["__tests__"]
+  }
 }

@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { Cup, Tea, Listener } from 'manatea';
 
-import { getCup } from './getCup';
-
-export const useInfuser = <T extends Tea>(cup: string | Cup<T>) => {
-  const [tea, setTea] = React.useState(getCup(cup)());
+export const useInfuser = <T extends Tea>(cup: Cup<T>) => {
+  const [tea, setTea] = React.useState(() => cup());
 
   React.useEffect(() => {
-    const listener: Listener = getCup(cup).on((tea: Tea) => setTea(tea));
-    setTea(getCup(cup)());
+    const listener: Listener = cup.on((tea: Tea) => setTea(tea));
+    setTea(cup());
     return () => {
       if (listener.listening) {
         listener();
@@ -16,5 +14,5 @@ export const useInfuser = <T extends Tea>(cup: string | Cup<T>) => {
     };
   }, [cup]);
 
-  return [tea, (tea: Tea) => getCup(cup)(tea)] as [T, (tea: T) => void];
+  return [tea, (tea: Tea) => cup(tea)] as [T, (tea: T) => void];
 };

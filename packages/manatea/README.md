@@ -12,10 +12,7 @@ This package has no dependencies and weights less than 1kB (and less than 500B g
 import { createCup } from 'manatea';
 
 // Defining a cup
-const timer = createCup(0);
-
-// Defining a named cup
-const counter = createCup(0, 'counter');
+const counter = createCup(0);
 ```
 
 ### Read cup's tea
@@ -38,11 +35,9 @@ counter(async tea => {
   return tea + 5;
 });
 
-timer((tea, namedStores) => {
-  const counterTea = namedStores.counter();
-  // "counter" is in the cup because it was previously named
-  // on the opposite, "timer" won't ever be in the cup.
-  return tea + counterTea;
+counter(tea => {
+  const otherTea = otherCup();
+  return tea + otherTea;
 });
 
 // Every update functions return promises
@@ -68,14 +63,4 @@ listener.listening; // false
 listener.listening; // true
 counter.clear();
 listener.listening; // false
-```
-
-### Immutability
-
-Every stores' tea are immutable:
-
-```js
-const cup = createCup([]);
-cup(tea => tea.push(1)); // Throws an error
-cup(tea => [...tea, 1]); // OKAY
 ```

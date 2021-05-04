@@ -20,13 +20,7 @@ import { infuse } from 'react-manatea';
 // Defining a cup
 const timer = createCup(0);
 
-// Defining a named cup
-const counter = createCup(0, 'counter');
-
 const Timer = infuse(timer)(({ tea: time }) => <div>Time: {time}</div>);
-const Counter = infuse('counter')(({ tea: count }) => (
-  <div>Count: {count}</div>
-));
 ```
 
 ## Infuser
@@ -39,16 +33,8 @@ import { Infuser } from 'react-manatea';
 // Defining a cup
 const timer = createCup(0);
 
-// Defining a named cup
-const counter = createCup(0, 'counter');
-
 const Timer = () => (
   <Infuser cup={timer}>{({ tea: time }) => <div>Time: {time}</div>}</Infuser>
-);
-const Counter = () => (
-  <Infuser cup="counter">
-    {({ tea: count }) => <div>Count: {count}</div>}
-  </Infuser>
 );
 ```
 
@@ -62,15 +48,8 @@ import { useInfuser } from 'react-manatea';
 // Defining a cup
 const timer = createCup(0);
 
-// Defining a named cup
-const counter = createCup(0, 'counter');
-
 const Timer = () => {
   const [time, setTime] = useInfuser(timer);
   return <div>Time: {time}</div>;
-};
-const Counter = () => {
-  const [count, setCount] = useInfuser('counter');
-  return <div>Count: {count}</div>;
 };
 ```

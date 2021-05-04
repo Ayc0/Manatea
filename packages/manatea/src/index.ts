@@ -17,11 +17,7 @@ export interface Listener {
   listening: boolean;
 }
 
-interface Store {
-  [key: string]: any;
-}
-
-type Change<T extends Tea> = ((tea: T, store?: Store) => T | Promise<T>) | T;
+type Change<T extends Tea> = ((tea: T) => T | Promise<T>) | T;
 
 export interface Cup<T extends Tea> {
   (): T;
@@ -29,8 +25,6 @@ export interface Cup<T extends Tea> {
   on: (fn: ListenerFn<T>) => Listener;
   clear: () => void;
 }
-
-export const store: Store = {};
 
 export const createCup = <T extends Tea>(
   initialTea: T,
@@ -64,7 +58,7 @@ export const createCup = <T extends Tea>(
       return tea;
     }
     return Promise.resolve(
-      typeof change === 'function' ? change(tea, store) : change,
+      typeof change === 'function' ? change(tea) : change,
     ).then(newTea => {
       setTea(newTea);
       return tea;
@@ -81,13 +75,6 @@ export const createCup = <T extends Tea>(
   };
 
   cup.clear = () => listeners.clear();
-
-  if (name) {
-    if (store[name]) {
-      throw new Error('Cannot override existing named cup');
-    }
-    store[name] = cup;
-  }
 
   return cup;
 };

@@ -26,10 +26,7 @@ export interface Cup<T extends Tea> {
   clear: () => void;
 }
 
-export const createCup = <T extends Tea>(
-  initialTea: T,
-  name?: string,
-): Cup<T> => {
+export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
   let listeners = new Set<ListenerFn<T>>();
   let tea = initialTea;
 

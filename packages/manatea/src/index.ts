@@ -32,7 +32,7 @@ export interface Cup<T extends Tea> {
 
 export const store: Store = {};
 
-export const createCup = <T extends Tea>(initialTea: T, name?: string) => {
+export const createCup = <T extends Tea>(initialTea: T, name?: string): Cup<T> => {
   let listeners = new Set<ListenerFn<T>>();
   let tea = initialTea;
 

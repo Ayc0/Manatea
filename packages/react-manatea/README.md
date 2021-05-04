@@ -1,14 +1,14 @@
-# React-Manatea
+# React-Manatea <!-- omit in toc -->
 
-## TL;DR
+## TL;DR <!-- omit in toc -->
 
 Bindings of [manatea](<[https://npmjs.](https://www.npmjs.com/package/manatea)>) for React
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-1.  [`infuse`](#infuse)
-2.  [`Infuser`](#infuser)
-3.  [`useInfuser`](#useinfuser)
+1. [infuse](#infuse)
+2. [Infuser](#infuser)
+3. [useInfuser](#useinfuser)
 
 ## infuse
 

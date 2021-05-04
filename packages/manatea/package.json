@@ -17,6 +17,9 @@
     "immutable",
     "lightweight"
   ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "microbundle watch",
     "build": "microbundle",

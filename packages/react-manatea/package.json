@@ -11,6 +11,9 @@
   "repository": "git@github.com:Ayc0/Manatea.git",
   "bugs": "https://github.com/Ayc0/Manatea/issues",
   "homepage": "https://github.com/Ayc0/Manatea/tree/master/packages/react-manatea#readme",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "microbundle watch",
     "build": "microbundle --name $npm_package_name --globals react=React",

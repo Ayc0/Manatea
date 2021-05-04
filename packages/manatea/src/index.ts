@@ -32,7 +32,10 @@ export interface Cup<T extends Tea> {
 
 export const store: Store = {};
 
-export const createCup = <T extends Tea>(initialTea: T, name?: string): Cup<T> => {
+export const createCup = <T extends Tea>(
+  initialTea: T,
+  name?: string,
+): Cup<T> => {
   let listeners = new Set<ListenerFn<T>>();
   let tea = initialTea;
 
@@ -54,7 +57,9 @@ export const createCup = <T extends Tea>(initialTea: T, name?: string): Cup<T> =
     });
   };
 
-  function cup(change: Change<T>) {
+  function cup(): T;
+  function cup(change: Change<T>): Promise<T>;
+  function cup(change?: Change<T>) {
     if (arguments.length === 0) {
       return tea;
     }

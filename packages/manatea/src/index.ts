@@ -46,7 +46,6 @@ export const createCup = <T extends Tea>(initialTea: T, name?: string) => {
     const isCancelled = { cancelled: false };
     isPreviousCancelled = isCancelled;
     tea = newTea;
-    Object.freeze(tea);
     listeners.forEach(fn => {
       if (isCancelled.cancelled) {
         return;
@@ -85,5 +84,5 @@ export const createCup = <T extends Tea>(initialTea: T, name?: string) => {
     store[name] = cup;
   }
 
-  return Object.freeze(cup);
+  return cup;
 };

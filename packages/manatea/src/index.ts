@@ -10,7 +10,8 @@ export type Tea =
   | object
   | Map<any, any>
   | Set<any>;
-type ListenerFn<T extends Tea> = (tea: T) => void;
+
+type Handler<T extends Tea> = (tea: T) => void;
 
 export interface Listener {
   (): boolean;
@@ -22,12 +23,12 @@ type Change<T extends Tea> = ((tea: T) => T | Promise<T>) | T;
 export interface Cup<T extends Tea> {
   (): T;
   (change: Change<T>): Promise<T>;
-  on: (fn: ListenerFn<T>) => Listener;
+  on: (fn: Handler<T>) => Listener;
   clear: () => void;
 }
 
 export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
-  let listeners = new Set<ListenerFn<T>>();
+  let handlers = new Set<Handler<T>>();
   let tea = initialTea;
 
   let isPreviousCancelled = { cancelled: false };
@@ -40,11 +41,11 @@ export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
     const isCancelled = { cancelled: false };
     isPreviousCancelled = isCancelled;
     tea = newTea;
-    listeners.forEach(fn => {
+    handlers.forEach(handler => {
       if (isCancelled.cancelled) {
         return;
       }
-      fn(tea);
+      handler(tea);
     });
   };
 
@@ -62,16 +63,16 @@ export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
     });
   }
 
-  cup.on = (fn: ListenerFn<T>) => {
-    listeners.add(fn);
-    const listener = () => listeners.delete(fn);
+  cup.on = (fn: Handler<T>) => {
+    handlers.add(fn);
+    const listener = () => handlers.delete(fn);
     Object.defineProperty(listener, 'listening', {
-      get: () => listeners.has(fn),
+      get: () => handlers.has(fn),
     });
     return listener as Listener;
   };
 
-  cup.clear = () => listeners.clear();
+  cup.clear = () => handlers.clear();
 
   return cup;
 };

@@ -11,8 +11,7 @@ export type Tea =
   | Map<any, any>
   | Set<any>;
 
-type Handler<T extends Tea> = (tea: T) => void;
-
+type Handler<T extends Tea> = (tea: T, context: Context) => void;
 export interface Listener {
   (): boolean;
   listening: boolean;
@@ -22,10 +21,11 @@ type Change<T extends Tea> = ((tea: T) => T | Promise<T>) | T;
 
 export interface Cup<T extends Tea> {
   (): T;
-  (change: Change<T>): Promise<T>;
+  (change: Change<T>, context?: Context): Promise<T>;
   on: (fn: Handler<T>) => Listener;
   clear: () => void;
 }
+type Context = WeakSet<Cup<any>>;
 
 export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
   let handlers = new Set<Handler<T>>();
@@ -33,7 +33,7 @@ export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
 
   let isPreviousCancelled = { cancelled: false };
 
-  const setTea = (newTea: T) => {
+  const setTea = (newTea: T, context: Context) => {
     if (tea === newTea) {
       return;
     }
@@ -45,20 +45,24 @@ export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
       if (isCancelled.cancelled) {
         return;
       }
-      handler(tea);
+      handler(tea, context);
     });
   };
 
   function cup(): T;
-  function cup(change: Change<T>): Promise<T>;
-  function cup(change?: Change<T>) {
+  function cup(change: Change<T>, context?: Context): Promise<T>;
+  function cup(change?: Change<T>, context: Context = new WeakSet()) {
     if (arguments.length === 0) {
       return tea;
     }
     return Promise.resolve(
       typeof change === 'function' ? change(tea) : change,
     ).then(newTea => {
-      setTea(newTea);
+      if (context.has(cup)) {
+        return tea;
+      }
+      context.add(cup);
+      setTea(newTea, context);
       return tea;
     });
   }

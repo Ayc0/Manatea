@@ -5,7 +5,7 @@ export const useInfuser = <T extends Tea>(cup: Cup<T>) => {
   const [tea, setTea] = React.useState(() => cup());
 
   React.useEffect(() => {
-    const listener: Listener = cup.on((tea: Tea) => setTea(tea));
+    const listener: Listener = cup.on((tea: T) => setTea(tea));
     setTea(cup());
     return () => {
       if (listener.listening) {
@@ -14,5 +14,5 @@ export const useInfuser = <T extends Tea>(cup: Cup<T>) => {
     };
   }, [cup]);
 
-  return [tea, (tea: Tea) => cup(tea)] as [T, (tea: T) => void];
+  return [tea, (tea: T) => cup(tea)] as [T, (tea: T) => void];
 };

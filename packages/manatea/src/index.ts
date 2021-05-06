@@ -34,7 +34,10 @@ export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
   let isPreviousCancelled = { cancelled: false };
 
   const setTea = (newTea: T, context: Context) => {
-    if (tea === newTea) {
+    if (
+      tea === newTea ||
+      (Number.isNaN(tea as any) && Number.isNaN(newTea as any))
+    ) {
       return;
     }
     isPreviousCancelled.cancelled = true;

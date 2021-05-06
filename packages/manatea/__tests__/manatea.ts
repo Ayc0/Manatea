@@ -63,4 +63,12 @@ describe('Manatea', () => {
     expect(cup1()).toBe(1);
     expect(cup2()).toBe(1);
   });
+
+  it('shouldn’t update with NaN', async () => {
+    const cup = createCup(NaN);
+    const fn = jest.fn();
+    cup.on(fn);
+    await cup(NaN);
+    expect(fn).not.toHaveBeenCalled();
+  });
 });

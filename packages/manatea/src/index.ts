@@ -27,28 +27,32 @@ export interface Cup<T extends Tea> {
 }
 type Context = WeakSet<Cup<any>>;
 
-export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
+export function createCup<T extends Tea>(
+  initialTea: T,
+  fixation: (tea: T) => T = t => t,
+): Cup<T> {
   let handlers = new Set<Handler<T>>();
-  let tea = initialTea;
+  let fixedTea = fixation(initialTea);
 
   let isPreviousCancelled = { cancelled: false };
 
   const setTea = (newTea: T, context: Context) => {
+    const fixedNewTea = fixation(newTea);
     if (
-      tea === newTea ||
-      (Number.isNaN(tea as any) && Number.isNaN(newTea as any))
+      fixedTea === fixedNewTea ||
+      (Number.isNaN(fixedTea as any) && Number.isNaN(fixedNewTea as any))
     ) {
       return;
     }
     isPreviousCancelled.cancelled = true;
     const isCancelled = { cancelled: false };
     isPreviousCancelled = isCancelled;
-    tea = newTea;
+    fixedTea = fixedNewTea;
     handlers.forEach(handler => {
       if (isCancelled.cancelled) {
         return;
       }
-      handler(tea, context);
+      handler(fixedTea, context);
     });
   };
 
@@ -56,17 +60,17 @@ export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
   function cup(change: Change<T>, context?: Context): Promise<T>;
   function cup(change?: Change<T>, context: Context = new WeakSet()) {
     if (arguments.length === 0) {
-      return tea;
+      return fixedTea;
     }
     return Promise.resolve(
-      typeof change === 'function' ? change(tea) : change,
+      typeof change === 'function' ? change(fixedTea) : change,
     ).then(newTea => {
       if (context.has(cup)) {
-        return tea;
+        return fixedTea;
       }
       context.add(cup);
       setTea(newTea, context);
-      return tea;
+      return fixedTea;
     });
   }
 
@@ -82,4 +86,4 @@ export const createCup = <T extends Tea>(initialTea: T): Cup<T> => {
   cup.clear = () => handlers.clear();
 
   return cup;
-};
+}

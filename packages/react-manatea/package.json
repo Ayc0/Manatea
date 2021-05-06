@@ -17,7 +17,7 @@
   "scripts": {
     "start": "microbundle watch",
     "build": "microbundle --name $npm_package_name --globals react=React",
-    "prepublish": "rm -rf dist && yarn -s build"
+    "prepublishOnly": "rm -rf dist && yarn -s build"
   },
   "devDependencies": {
     "@types/react": "^16.9.9",

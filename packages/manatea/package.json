@@ -23,7 +23,7 @@
   "scripts": {
     "start": "microbundle watch",
     "build": "microbundle",
-    "prepublish": "rm -rf dist && yarn -s build"
+    "prepublishOnly": "rm -rf dist && yarn -s build"
   },
   "devDependencies": {
     "microbundle": "^0.11.0"

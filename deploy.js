@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+const cp = require('child_process');
+const path = require('path');
+
 const [_, __, ...argv] = process.argv;
 
 const versionIndex = argv.findIndex(arg => arg === '-v' || arg === '--version');
@@ -17,9 +20,6 @@ removeTag(version);
 mergeLast2Commits(version);
 addTag(version);
 push();
-
-const cp = require('child_process');
-const path = require('path');
 
 function deploy(package) {
   cp.spawnSync('yarn', ['publish', '--new-version', version, ...argv], {

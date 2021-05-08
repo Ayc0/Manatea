@@ -29,30 +29,31 @@ type Context = WeakSet<Cup<any>>;
 
 export function orderCup<T extends Tea>(
   firstTea: T,
-  fixation: (tea: T) => T = t => t,
+  flavoring: (tea: T) => T = t => t,
 ): Cup<T> {
   let handlers = new Set<Handler<T>>();
-  let fixedTea = fixation(firstTea);
+  let flavoredTea = flavoring(firstTea);
 
   let isPreviousCancelled = { cancelled: false };
 
   const setTea = (teaRefill: T, context: Context) => {
-    const fixedNewTea = fixation(teaRefill);
+    const flavoredTeaRefill = flavoring(teaRefill);
     if (
-      fixedTea === fixedNewTea ||
-      (Number.isNaN(fixedTea as any) && Number.isNaN(fixedNewTea as any))
+      flavoredTea === flavoredTeaRefill ||
+      (Number.isNaN(flavoredTea as any) &&
+        Number.isNaN(flavoredTeaRefill as any))
     ) {
       return;
     }
     isPreviousCancelled.cancelled = true;
     const isCancelled = { cancelled: false };
     isPreviousCancelled = isCancelled;
-    fixedTea = fixedNewTea;
+    flavoredTea = flavoredTeaRefill;
     handlers.forEach(handler => {
       if (isCancelled.cancelled) {
         return;
       }
-      handler(fixedTea, context);
+      handler(flavoredTea, context);
     });
   };
 
@@ -60,17 +61,17 @@ export function orderCup<T extends Tea>(
   function cup(order: Order<T>, context?: Context): Promise<T>;
   function cup(order?: Order<T>, context: Context = new WeakSet()) {
     if (arguments.length === 0) {
-      return fixedTea;
+      return flavoredTea;
     }
     return Promise.resolve(
-      typeof order === 'function' ? order(fixedTea) : order,
+      typeof order === 'function' ? order(flavoredTea) : order,
     ).then(teaRefill => {
       if (context.has(cup)) {
-        return fixedTea;
+        return flavoredTea;
       }
       context.add(cup);
       setTea(teaRefill, context);
-      return fixedTea;
+      return flavoredTea;
     });
   }
 

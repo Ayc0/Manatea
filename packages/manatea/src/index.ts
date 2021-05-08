@@ -28,11 +28,11 @@ export interface Cup<T extends Tea> {
 type Context = WeakSet<Cup<any>>;
 
 export function createCup<T extends Tea>(
-  initialTea: T,
+  firstTea: T,
   fixation: (tea: T) => T = t => t,
 ): Cup<T> {
   let handlers = new Set<Handler<T>>();
-  let fixedTea = fixation(initialTea);
+  let fixedTea = fixation(firstTea);
 
   let isPreviousCancelled = { cancelled: false };
 

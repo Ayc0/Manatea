@@ -17,11 +17,11 @@ export interface Listener {
   listening: boolean;
 }
 
-type Change<T extends Tea> = ((tea: T) => T | Promise<T>) | T;
+type Order<T extends Tea> = ((tea: T) => T | Promise<T>) | T;
 
 export interface Cup<T extends Tea> {
   (): T;
-  (change: Change<T>, context?: Context): Promise<T>;
+  (order: Order<T>, context?: Context): Promise<T>;
   on: (fn: Handler<T>) => Listener;
   clear: () => void;
 }
@@ -57,13 +57,13 @@ export function createCup<T extends Tea>(
   };
 
   function cup(): T;
-  function cup(change: Change<T>, context?: Context): Promise<T>;
-  function cup(change?: Change<T>, context: Context = new WeakSet()) {
+  function cup(order: Order<T>, context?: Context): Promise<T>;
+  function cup(order?: Order<T>, context: Context = new WeakSet()) {
     if (arguments.length === 0) {
       return fixedTea;
     }
     return Promise.resolve(
-      typeof change === 'function' ? change(fixedTea) : change,
+      typeof order === 'function' ? order(fixedTea) : order,
     ).then(newTea => {
       if (context.has(cup)) {
         return fixedTea;

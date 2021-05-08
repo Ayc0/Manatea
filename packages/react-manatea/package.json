@@ -24,7 +24,7 @@
     "microbundle": "^0.13.0"
   },
   "peerDependencies": {
-    "manatea": "workspace:*",
+    "manatea": "*",
     "react": ">=16.8.2"
   }
 }

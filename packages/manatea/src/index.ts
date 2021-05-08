@@ -36,8 +36,8 @@ export function createCup<T extends Tea>(
 
   let isPreviousCancelled = { cancelled: false };
 
-  const setTea = (newTea: T, context: Context) => {
-    const fixedNewTea = fixation(newTea);
+  const setTea = (teaRefill: T, context: Context) => {
+    const fixedNewTea = fixation(teaRefill);
     if (
       fixedTea === fixedNewTea ||
       (Number.isNaN(fixedTea as any) && Number.isNaN(fixedNewTea as any))
@@ -64,12 +64,12 @@ export function createCup<T extends Tea>(
     }
     return Promise.resolve(
       typeof order === 'function' ? order(fixedTea) : order,
-    ).then(newTea => {
+    ).then(teaRefill => {
       if (context.has(cup)) {
         return fixedTea;
       }
       context.add(cup);
-      setTea(newTea, context);
+      setTea(teaRefill, context);
       return fixedTea;
     });
   }

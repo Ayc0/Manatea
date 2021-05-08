@@ -12,7 +12,7 @@ export type Tea =
   | Set<any>;
 
 type Handler<T extends Tea> = (tea: T, context: Context) => void;
-export interface Listener {
+export interface Server {
   (): boolean;
   listening: boolean;
 }
@@ -22,7 +22,7 @@ type Order<T extends Tea> = ((tea: T) => T | Promise<T>) | T;
 export interface Cup<T extends Tea> {
   (): T;
   (order: Order<T>, context?: Context): Promise<T>;
-  on: (fn: Handler<T>) => Listener;
+  on: (fn: Handler<T>) => Server;
   clear: () => void;
 }
 type Context = WeakSet<Cup<any>>;
@@ -76,11 +76,11 @@ export function createCup<T extends Tea>(
 
   cup.on = (fn: Handler<T>) => {
     handlers.add(fn);
-    const listener = () => handlers.delete(fn);
-    Object.defineProperty(listener, 'listening', {
+    const server = () => handlers.delete(fn);
+    Object.defineProperty(server, 'listening', {
       get: () => handlers.has(fn),
     });
-    return listener as Listener;
+    return server as Server;
   };
 
   cup.clear = () => handlers.clear();

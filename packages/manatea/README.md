@@ -44,23 +44,23 @@ counter(tea => {
 counter(tea => tea + 1).then(tea => console.log(tea));
 ```
 
-### Store's listeners
+### Cup's servers
 
 ```js
-// Add listener
-const listener = counter.on(tea => console.log(tea));
+// Add server
+const server = counter.on(tea => console.log(tea));
 ```
 
-### Remove cup's listener
+### Dismiss cup's server
 
 ```js
-listener.listening; // true
-listener();
-listener.listening; // false
+server.listening; // true
+server();
+server.listening; // false
 
 // OR
 
-listener.listening; // true
+server.listening; // true
 counter.clear();
-listener.listening; // false
+server.listening; // false
 ```

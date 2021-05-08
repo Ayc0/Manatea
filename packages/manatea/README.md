@@ -9,10 +9,10 @@ This package has no dependencies and weights less than 1kB (and less than 500B g
 ### Create cup
 
 ```js
-import { createCup } from 'manatea';
+import { orderCup } from 'manatea';
 
 // Defining a cup
-const counter = createCup(0);
+const counter = orderCup(0);
 ```
 
 ### Read cup's tea

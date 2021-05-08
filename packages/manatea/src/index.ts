@@ -27,7 +27,7 @@ export interface Cup<T extends Tea> {
 }
 type Context = WeakSet<Cup<any>>;
 
-export function createCup<T extends Tea>(
+export function orderCup<T extends Tea>(
   firstTea: T,
   fixation: (tea: T) => T = t => t,
 ): Cup<T> {

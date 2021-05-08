@@ -16,13 +16,14 @@ This package has no dependencies and weights less than 1kB (and less than 500B g
 
 ## Lexicon
 
-`Manatea` uses weird and funny names because this project is mostly for fun. And also I do whatever I want with it.
+`Manatea` uses weird and funny names because this project is mostly for fun. And also we can do whatever we want with it.
+
+Here is the reason behind all our names:
+
+> First you `order a cup` of `tea` filled with your `first tea`. Then you can place a new `order` and the `server` will `refill` your `cup` with a new tea.\
+> Depending on whether or not the tea suits you, you can add flavor to it with a `flavoring`.
 
 But as those can be confusing, he is an equivalent to all our names in more usual words:
-
-First you `order a cup` of `tea` filled with your `first tea`. Then you can place a new `order` and the `server` will `refill` your `cup` with a new tea.
-
-Depending on whether or not the tea suits you, you can add flavor to it with a `flavoring`.
 
 | In `manatea` | More generic names | Explanation                                                                                                                                                            |
 | ------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

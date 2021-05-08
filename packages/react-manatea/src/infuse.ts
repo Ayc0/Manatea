@@ -14,5 +14,6 @@ export const infuse = <T extends Tea>(cup: Cup<T>) => (
       tea,
     });
   };
+
   return Consumer;
 };

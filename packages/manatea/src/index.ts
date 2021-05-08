@@ -25,7 +25,8 @@ export interface Cup<T extends Tea> {
   on: (fn: Handler<T>) => Server;
   clear: () => void;
 }
-type Context = WeakSet<Cup<any>>;
+
+export type Context = WeakSet<Cup<any>>;
 
 export function orderCup<T extends Tea>(
   firstTea: T,

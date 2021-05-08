@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Cup, Tea, Server } from 'manatea';
+import { Cup, Tea, Server, Context } from 'manatea';
 
 export const useInfuser = <T extends Tea>(cup: Cup<T>) => {
   const [tea, setTea] = React.useState(() => cup());
@@ -14,5 +14,5 @@ export const useInfuser = <T extends Tea>(cup: Cup<T>) => {
     };
   }, [cup]);
 
-  return [tea, (tea: T) => cup(tea)] as [T, (tea: T) => void];
+  return [tea, (tea: T, context?: Context) => cup(tea, context)] as const;
 };

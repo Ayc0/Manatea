@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Cup, Tea, Listener } from 'manatea';
+import { Cup, Tea, Server } from 'manatea';
 
 export const useInfuser = <T extends Tea>(cup: Cup<T>) => {
   const [tea, setTea] = React.useState(() => cup());
 
   React.useEffect(() => {
-    const listener: Listener = cup.on((tea: T) => setTea(tea));
+    const server: Server = cup.on((tea: T) => setTea(tea));
     setTea(cup());
     return () => {
-      if (listener.listening) {
-        listener();
+      if (server.listening) {
+        server();
       }
     };
   }, [cup]);

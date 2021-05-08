@@ -9,10 +9,10 @@ This package has no dependencies and weights less than 1kB (and less than 500B g
 ### Create cup
 
 ```js
-import { createCup } from 'manatea';
+import { orderCup } from 'manatea';
 
 // Defining a cup
-const counter = createCup(0);
+const counter = orderCup(0);
 ```
 
 ### Read cup's tea
@@ -44,23 +44,23 @@ counter(tea => {
 counter(tea => tea + 1).then(tea => console.log(tea));
 ```
 
-### Store's listeners
+### Cup's servers
 
 ```js
-// Add listener
-const listener = counter.on(tea => console.log(tea));
+// Add server
+const server = counter.on(tea => console.log(tea));
 ```
 
-### Remove cup's listener
+### Dismiss cup's server
 
 ```js
-listener.listening; // true
-listener();
-listener.listening; // false
+server.listening; // true
+server();
+server.listening; // false
 
 // OR
 
-listener.listening; // true
+server.listening; // true
 counter.clear();
-listener.listening; // false
+server.listening; // false
 ```

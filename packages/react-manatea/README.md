@@ -14,11 +14,11 @@ Bindings of [manatea](<[https://npmjs.](https://www.npmjs.com/package/manatea)>)
 
 ```js
 import React from 'react';
-import { createCup } from 'manatea';
+import { orderCup } from 'manatea';
 import { infuse } from 'react-manatea';
 
 // Defining a cup
-const timer = createCup(0);
+const timer = orderCup(0);
 
 const Timer = infuse(timer)(({ tea: time }) => <div>Time: {time}</div>);
 ```
@@ -27,11 +27,11 @@ const Timer = infuse(timer)(({ tea: time }) => <div>Time: {time}</div>);
 
 ```js
 import React from 'react';
-import { createCup } from 'manatea';
+import { orderCup } from 'manatea';
 import { Infuser } from 'react-manatea';
 
 // Defining a cup
-const timer = createCup(0);
+const timer = orderCup(0);
 
 const Timer = () => (
   <Infuser cup={timer}>{({ tea: time }) => <div>Time: {time}</div>}</Infuser>
@@ -42,11 +42,11 @@ const Timer = () => (
 
 ```js
 import React, { useInfuser } from 'react';
-import { createCup } from 'manatea';
+import { orderCup } from 'manatea';
 import { useInfuser } from 'react-manatea';
 
 // Defining a cup
-const timer = createCup(0);
+const timer = orderCup(0);
 
 const Timer = () => {
   const [time, setTime] = useInfuser(timer);

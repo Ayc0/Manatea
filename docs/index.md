@@ -4,7 +4,7 @@
 - [react-manatea](react.html)
 
 ```jsx
-const { createCup } = manatea;
+const { orderCup } = manatea;
 const { Infuser, infuse } = ReactManatea;
 
 const add = tea => Math.min(50, tea + 1);
@@ -13,7 +13,7 @@ const subtract = tea => Math.max(0, tea - 1);
 // Use lib
 const UnnamedCup = (() => {
   // Define store
-  const counter = createCup(0);
+  const counter = orderCup(0);
 
   const increment = () => counter(add);
   const decrement = () => counter(subtract);
@@ -30,7 +30,7 @@ const UnnamedCup = (() => {
 
 const NamedCup = (() => {
   // Define store
-  const counter = createCup(0, 'counter');
+  const counter = orderCup(0, 'counter');
 
   const increment = () => counter(add);
   const decrement = () => counter(subtract);
@@ -47,7 +47,7 @@ const NamedCup = (() => {
 
 const ConnectedUnnamedCup = (() => {
   // Define store
-  const counter = createCup(0);
+  const counter = orderCup(0);
 
   const increment = () => counter(add);
   const decrement = () => counter(subtract);
@@ -65,7 +65,7 @@ const ConnectedUnnamedCup = (() => {
 
 const ConnectedNamedCup = (() => {
   // Define store
-  const counter = createCup(0, 'connect');
+  const counter = orderCup(0, 'connect');
 
   const increment = () => counter(add);
   const decrement = () => counter(subtract);

@@ -1,9 +1,9 @@
 // @ts-ignore
-import { createCup } from '../src/index';
+import { orderCup } from '../src/index';
 
 describe('Manatea', () => {
   it('should be updatable', async () => {
-    const cup = createCup<number>(1);
+    const cup = orderCup<number>(1);
     expect(cup()).toBe(1);
     await cup(2);
     expect(cup()).toBe(2);
@@ -14,7 +14,7 @@ describe('Manatea', () => {
   });
 
   it('should be listenable', async () => {
-    const cup = createCup<number>(1);
+    const cup = orderCup<number>(1);
     const fn = jest.fn();
     cup.on(tea => fn(tea));
     await cup(2);
@@ -23,32 +23,32 @@ describe('Manatea', () => {
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
-  it('should have clearable listeners', async () => {
+  it('should have clearable servers', async () => {
     {
-      const cup = createCup<number>(1);
+      const cup = orderCup<number>(1);
       const fn = jest.fn();
-      const listener = cup.on(fn);
-      expect(listener.listening).toBe(true);
-      listener();
-      expect(listener.listening).toBe(false);
+      const server = cup.on(fn);
+      expect(server.listening).toBe(true);
+      server();
+      expect(server.listening).toBe(false);
       await cup(2);
       expect(fn).not.toHaveBeenCalled();
     }
     {
-      const cup = createCup<number>(1);
+      const cup = orderCup<number>(1);
       const fn = jest.fn();
-      const listener = cup.on(fn);
-      expect(listener.listening).toBe(true);
+      const server = cup.on(fn);
+      expect(server.listening).toBe(true);
       cup.clear();
-      expect(listener.listening).toBe(false);
+      expect(server.listening).toBe(false);
       await cup(2);
       expect(fn).not.toHaveBeenCalled();
     }
   });
 
   it('shouldn’t create infinite loops', async () => {
-    const cup1 = createCup<number>(0);
-    const cup2 = createCup<number>(0);
+    const cup1 = orderCup<number>(0);
+    const cup2 = orderCup<number>(0);
     let i = 0;
     cup1.on((_tea, context) => {
       if (i++ > 0) {
@@ -65,7 +65,7 @@ describe('Manatea', () => {
   });
 
   it('shouldn’t update with NaN', async () => {
-    const cup = createCup(NaN);
+    const cup = orderCup(NaN);
     const fn = jest.fn();
     cup.on(fn);
     await cup(NaN);

@@ -37,6 +37,12 @@ function updateAllVersions(version) {
       fs.readFileSync(packageJsonPath, { encoding: 'utf-8' }),
     );
     packageJson.version = version;
+    if (
+      'peerDependencies' in packageJson &&
+      'manatea' in packageJson.peerDependencies
+    ) {
+      packageJson.peerDependencies.manatea = version;
+    }
     fs.writeFileSync(
       packageJsonPath,
       JSON.stringify(packageJson, null, 2) + '\n',

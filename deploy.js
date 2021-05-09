@@ -17,31 +17,58 @@ argv.splice(versionIndex, 2);
 updateAllVersions(version);
 deploy('manatea');
 deploy('react-manatea');
+restorePeerDeps();
 commit(version);
 addTag(version);
 push();
 
-function updateAllVersions(version) {
+function* listAllWorkspaces() {
   const output = cp.spawnSync('yarn', ['workspaces', 'list', '--json'], {
     encoding: 'utf-8',
   }).stdout;
-  const locations = output
+  const workspaces = output
     .trim()
     .split('\n')
-    .map(JSON.parse)
-    .map(({ location }) => location);
+    .map(JSON.parse);
 
-  for (const location of locations) {
-    const packageJsonPath = path.join(__dirname, location, 'package.json');
+  for (const workspace of workspaces) {
+    const packageJsonPath = path.join(
+      __dirname,
+      workspace.location,
+      'package.json',
+    );
     const packageJson = JSON.parse(
       fs.readFileSync(packageJsonPath, { encoding: 'utf-8' }),
     );
+
+    yield { packageJsonPath, packageJson, name: workspace.name };
+  }
+}
+
+function updateAllVersions(version) {
+  for (const { packageJson, packageJsonPath } of listAllWorkspaces()) {
     packageJson.version = version;
     if (
       'peerDependencies' in packageJson &&
       'manatea' in packageJson.peerDependencies
     ) {
       packageJson.peerDependencies.manatea = version;
+    }
+    fs.writeFileSync(
+      packageJsonPath,
+      JSON.stringify(packageJson, null, 2) + '\n',
+    );
+  }
+}
+
+function restorePeerDeps() {
+  for (const { packageJson, packageJsonPath } of listAllWorkspaces()) {
+    packageJson.version = version;
+    if (
+      'peerDependencies' in packageJson &&
+      'manatea' in packageJson.peerDependencies
+    ) {
+      packageJson.peerDependencies.manatea = '*';
     }
     fs.writeFileSync(
       packageJsonPath,

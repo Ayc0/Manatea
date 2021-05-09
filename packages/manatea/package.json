@@ -1,6 +1,6 @@
 {
   "name": "manatea",
-  "version": "0.5.0-beta.4",
+  "version": "0.5.0-beta.6",
   "source": "src/index.ts",
   "umd:main": "dist/manatea.umd.js",
   "main": "dist/manatea.js",
@@ -26,6 +26,6 @@
     "prepublishOnly": "rm -rf dist && yarn -s build"
   },
   "devDependencies": {
-    "microbundle": "^0.11.0"
+    "microbundle": "^0.13.0"
   }
 }

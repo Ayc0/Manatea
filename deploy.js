@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const cp = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
 const [_, __, ...argv] = process.argv;
@@ -13,23 +14,72 @@ if (versionIndex === argv.length - 1 || versionIndex === -1) {
 const version = argv[versionIndex + 1];
 argv.splice(versionIndex, 2);
 
+updateAllVersions(version);
 deploy('manatea');
-removeTag(version);
 deploy('react-manatea');
-removeTag(version);
-mergeLast2Commits(version);
+restorePeerDeps();
+commit(version);
 addTag(version);
 push();
 
-function deploy(package) {
-  cp.spawnSync('yarn', ['publish', '--new-version', version, ...argv], {
-    cwd: path.join(__dirname, 'packages', package),
-    stdio: 'inherit',
-  });
+function* listAllWorkspaces() {
+  const output = cp.spawnSync('yarn', ['workspaces', 'list', '--json'], {
+    encoding: 'utf-8',
+  }).stdout;
+  const workspaces = output
+    .trim()
+    .split('\n')
+    .map(JSON.parse);
+
+  for (const workspace of workspaces) {
+    const packageJsonPath = path.join(
+      __dirname,
+      workspace.location,
+      'package.json',
+    );
+    const packageJson = JSON.parse(
+      fs.readFileSync(packageJsonPath, { encoding: 'utf-8' }),
+    );
+
+    yield { packageJsonPath, packageJson, name: workspace.name };
+  }
 }
 
-function removeTag(version) {
-  cp.spawnSync('git', ['tag', '-d', `v${version}`], {
+function updateAllVersions(version) {
+  for (const { packageJson, packageJsonPath } of listAllWorkspaces()) {
+    packageJson.version = version;
+    if (
+      'peerDependencies' in packageJson &&
+      'manatea' in packageJson.peerDependencies
+    ) {
+      packageJson.peerDependencies.manatea = version;
+    }
+    fs.writeFileSync(
+      packageJsonPath,
+      JSON.stringify(packageJson, null, 2) + '\n',
+    );
+  }
+}
+
+function restorePeerDeps() {
+  for (const { packageJson, packageJsonPath } of listAllWorkspaces()) {
+    packageJson.version = version;
+    if (
+      'peerDependencies' in packageJson &&
+      'manatea' in packageJson.peerDependencies
+    ) {
+      packageJson.peerDependencies.manatea = '*';
+    }
+    fs.writeFileSync(
+      packageJsonPath,
+      JSON.stringify(packageJson, null, 2) + '\n',
+    );
+  }
+}
+
+function deploy(package) {
+  cp.spawnSync('yarn', ['npm', 'publish', ...argv], {
+    cwd: path.join(__dirname, 'packages', package),
     stdio: 'inherit',
   });
 }
@@ -40,10 +90,7 @@ function addTag(version) {
   });
 }
 
-function mergeLast2Commits(version) {
-  cp.spawnSync('git', ['reset', 'HEAD~2'], {
-    stdio: 'inherit',
-  });
+function commit(version) {
   cp.spawnSync('git', ['add', '.'], {
     stdio: 'inherit',
   });

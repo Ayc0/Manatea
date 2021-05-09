@@ -4,50 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Manatea</title>
   </head>
 
   <body>
-    <script width="100%" transpile>
-      const add = tea => Math.min(50, tea + 1);
-      const subtract = tea => Math.max(0, tea - 1);
+    <script transpile type="text/babel">
+      const counter = orderCup(0, tea => Math.min(50, Math.max(0, tea)));
 
-      // Define store
-      const counter = orderCup(0);
-
-      const increment = () => counter(add);
-      const decrement = () => counter(subtract);
+      const increment = () => counter(tea => tea + 1);
+      const decrement = () => counter(tea => tea - 1);
 
       const App = () => (
         <React.Fragment>
-          Unnamed counter <br />
+          &#60;Infuser&#62;
+          <br />
+          <Infuser cup={counter}>{tea => tea}</Infuser>{' '}
           <button onClick={increment}>+</button>
-          <button onClick={decrement}>-</button> <br />
-          <Infuser cup={counter}>{tea => tea}</Infuser>
+          <button onClick={decrement}>-</button>
         </React.Fragment>
       );
     </script>
 
-    <script transpile>
-      const add = tea => Math.min(50, tea + 1);
-      const subtract = tea => Math.max(0, tea - 1);
+    <script transpile type="text/babel">
+      const counter = orderCup(0, tea => Math.min(50, Math.max(0, tea)));
 
-      const counter = orderCup(0, 'counter');
+      const increment = () => counter(tea => tea + 1);
+      const decrement = () => counter(tea => tea - 1);
 
-      const increment = () => counter(add);
-      const decrement = () => counter(subtract);
+      const Tea = () => {
+        const [tea] = useInfuser(counter);
+        return tea;
+      };
 
       const App = () => (
         <React.Fragment>
-          Named counter <br />
-          <button onClick={increment}>+</button>
-          <button onClick={decrement}>-</button> <br />
-          <Infuser cup="counter">{tea => tea}</Infuser>
+          &#60;useInfuser()&#62;
+          <br />
+          <Tea /> <button onClick={increment}>+</button>
+          <button onClick={decrement}>-</button>
         </React.Fragment>
       );
     </script>
 
-    <script>
+    <script type="text/javascript">
       [].forEach.call(
         document.querySelectorAll('script[transpile]'),
         script => {

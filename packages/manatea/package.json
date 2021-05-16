@@ -26,6 +26,7 @@
     "prepublishOnly": "rm -rf dist && yarn -s build"
   },
   "devDependencies": {
-    "microbundle": "^0.13.0"
+    "microbundle": "^0.13.0",
+    "typescript": "^4.2.4"
   }
 }

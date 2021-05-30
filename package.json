@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "test": "jest",
+    "build": "./build.js",
     "deploy": "./deploy.js"
   },
   "devDependencies": {

@@ -1,5 +1,4 @@
-// @ts-ignore
-import { orderCup } from '../src/index';
+import { orderCup, unstable_plate } from '../src/index';
 
 describe('Manatea', () => {
   it('should be updatable', async () => {
@@ -70,5 +69,33 @@ describe('Manatea', () => {
     cup.on(fn);
     await cup(NaN);
     expect(fn).not.toHaveBeenCalled();
+  });
+
+  it('should work with plates', async () => {
+    const cup1 = orderCup<number>(0);
+    const cup2 = orderCup<string>('');
+    const fn = jest.fn();
+    const plate = unstable_plate([cup1, cup2]);
+    plate.on(fn);
+    await cup1(1);
+    await cup2('1');
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(fn).toHaveBeenNthCalledWith(1, [1, ''], new WeakSet());
+    expect(fn).toHaveBeenNthCalledWith(2, [1, '1'], new WeakSet());
+  });
+
+  it('plates should be infinite-loop proof', async () => {
+    const cup1 = orderCup<number>(0);
+    const cup2 = orderCup<string>('');
+    const plate = unstable_plate([cup1, cup2]);
+    plate.on((teas, context) => {
+      cup1(0, context);
+    });
+    await cup1(1);
+    expect(cup1()).toBe(1);
+    expect(cup2()).toBe('');
+    await cup2('1');
+    expect(cup1()).toBe(0);
+    expect(cup2()).toBe('1');
   });
 });

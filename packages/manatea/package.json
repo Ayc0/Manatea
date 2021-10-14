@@ -25,8 +25,7 @@
     "start": "microbundle watch",
     "build:clean": "rm -rf dist",
     "build:action": "microbundle",
-    "build": "yarn build:clean && yarn build:action",
-    "prepublishOnly": "yarn build"
+    "build": "yarn build:clean && yarn build:action"
   },
   "devDependencies": {
     "microbundle": "^0.13.0",

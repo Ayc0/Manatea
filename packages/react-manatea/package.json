@@ -19,8 +19,7 @@
     "start": "microbundle watch",
     "build:clean": "rm -rf dist",
     "build:action": "microbundle --name $npm_package_name --globals react=React",
-    "build": "yarn build:clean && yarn build:action",
-    "prepublishOnly": "yarn build"
+    "build": "yarn build:clean && yarn build:action"
   },
   "devDependencies": {
     "@types/react": "^17.0.5",

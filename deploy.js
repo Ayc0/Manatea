@@ -26,10 +26,7 @@ function* listAllWorkspaces() {
   const output = cp.spawnSync('yarn', ['workspaces', 'list', '--json'], {
     encoding: 'utf-8',
   }).stdout;
-  const workspaces = output
-    .trim()
-    .split('\n')
-    .map(JSON.parse);
+  const workspaces = output.trim().split('\n').map(JSON.parse);
 
   for (const workspace of workspaces) {
     const packageJsonPath = path.join(

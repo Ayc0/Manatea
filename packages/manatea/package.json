@@ -23,8 +23,10 @@
   ],
   "scripts": {
     "start": "microbundle watch",
-    "build": "microbundle",
-    "prepublishOnly": "rm -rf dist && yarn -s build"
+    "build:clean": "rm -rf dist",
+    "build:action": "microbundle",
+    "build": "yarn build:clean && yarn build:action",
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "microbundle": "^0.13.0",

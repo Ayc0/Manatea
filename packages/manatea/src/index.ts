@@ -11,33 +11,44 @@ export type Tea =
   | Map<any, any>
   | Set<any>;
 
-type Handler<T extends Tea> = (tea: T, context: Context) => void;
+type Handler<UnflavoredTea extends Tea> = (
+  tea: UnflavoredTea,
+  context: Context,
+) => void;
 export interface Server {
   (): boolean;
   listening: boolean;
 }
 
-type Order<T extends Tea> = ((tea: T) => T | Promise<T>) | T;
+type Order<FlavoredTea extends Tea, UnflavoredTea extends Tea> =
+  | ((tea: FlavoredTea) => UnflavoredTea | Promise<UnflavoredTea>)
+  | UnflavoredTea;
 
-export interface Cup<T extends Tea> {
-  (): T;
-  (order: Order<T>, context?: Context): Promise<T>;
-  on: (fn: Handler<T>) => Server;
+export interface Cup<FlavoredTea extends Tea, UnflavoredTea extends Tea> {
+  (): FlavoredTea;
+  (
+    order: Order<FlavoredTea, UnflavoredTea>,
+    context?: Context,
+  ): Promise<FlavoredTea>;
+  on: (fn: Handler<FlavoredTea>) => Server;
   clear: () => void;
 }
 
-export type Context = WeakSet<Cup<any>>;
+export type Context = WeakSet<Cup<any, any>>;
 
-export function orderCup<T extends Tea>(
-  firstTea: T,
-  flavoring: (tea: T) => T = t => t,
-): Cup<T> {
-  let handlers = new Set<Handler<T>>();
+export function orderCup<
+  FlavoredTea extends Tea,
+  UnflavoredTea extends Tea = FlavoredTea
+>(
+  firstTea: UnflavoredTea,
+  flavoring: (tea: UnflavoredTea) => FlavoredTea = t => t as any,
+): Cup<FlavoredTea, UnflavoredTea> {
+  let handlers = new Set<Handler<FlavoredTea>>();
   let flavoredTea = flavoring(firstTea);
 
   let isPreviousCancelled = { cancelled: false };
 
-  const setTea = (teaRefill: T, context: Context) => {
+  const setTea = (teaRefill: UnflavoredTea, context: Context) => {
     const flavoredTeaRefill = flavoring(teaRefill);
     if (
       flavoredTea === flavoredTeaRefill ||
@@ -58,9 +69,15 @@ export function orderCup<T extends Tea>(
     });
   };
 
-  function cup(): T;
-  function cup(order: Order<T>, context?: Context): Promise<T>;
-  function cup(order?: Order<T>, context: Context = new WeakSet()) {
+  function cup(): FlavoredTea;
+  function cup(
+    order: Order<FlavoredTea, UnflavoredTea>,
+    context?: Context,
+  ): Promise<FlavoredTea>;
+  function cup(
+    order?: Order<FlavoredTea, UnflavoredTea>,
+    context: Context = new WeakSet(),
+  ) {
     if (arguments.length === 0) {
       return flavoredTea;
     }
@@ -76,7 +93,7 @@ export function orderCup<T extends Tea>(
     });
   }
 
-  cup.on = (fn: Handler<T>) => {
+  cup.on = (fn: Handler<FlavoredTea>) => {
     handlers.add(fn);
     const server = () => handlers.delete(fn);
     Object.defineProperty(server, 'listening', {

@@ -3,12 +3,18 @@ import { Cup, Tea } from 'manatea';
 
 import { useInfuser } from './useInfuser';
 
-interface InfuserProps<T extends Tea> {
-  cup: Cup<T>;
-  children: (tea: T) => ReactNode;
+interface InfuserProps<FlavoredTea extends Tea, UnflavoredTea extends Tea> {
+  cup: Cup<FlavoredTea, UnflavoredTea>;
+  children: (tea: FlavoredTea) => ReactNode;
 }
 
-export const Infuser = <T extends Tea>({ cup, children }: InfuserProps<T>) => {
-  const [tea] = useInfuser<T>(cup);
+export const Infuser = <
+  FlavoredTea extends Tea,
+  UnflavoredTea extends Tea = FlavoredTea
+>({
+  cup,
+  children,
+}: InfuserProps<FlavoredTea, UnflavoredTea>) => {
+  const [tea] = useInfuser<FlavoredTea, UnflavoredTea>(cup);
   return children(tea);
 };

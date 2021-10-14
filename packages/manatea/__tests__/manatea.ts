@@ -71,4 +71,15 @@ describe('Manatea', () => {
     await cup(NaN);
     expect(fn).not.toHaveBeenCalled();
   });
+
+  it('should have flavors', async () => {
+    const cup = orderCup('0' as string, unflavored => parseInt(unflavored, 10));
+    const fn = jest.fn();
+    cup.on(tea => fn(tea));
+    expect(cup()).toBe(0);
+
+    await cup('1');
+    expect(cup()).toBe(1);
+    expect(fn).toHaveBeenCalledWith(1);
+  });
 });

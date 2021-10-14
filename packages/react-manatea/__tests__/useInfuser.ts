@@ -17,6 +17,7 @@ describe('useInfuser', () => {
 
     expect(result.current[0]).toBe(1);
   });
+
   it('should trigger updates', async () => {
     const cup = orderCup<number>(0);
 
@@ -30,6 +31,7 @@ describe('useInfuser', () => {
 
     expect(cup()).toBe(-1);
   });
+
   it('should avoid infinite loops', async () => {
     const cup = orderCup<number>(0);
 
@@ -43,5 +45,22 @@ describe('useInfuser', () => {
     });
 
     expect(cup()).toBe(2);
+  });
+
+  it('should have flavors', async () => {
+    const cup = orderCup('0' as string, unflavored => parseInt(unflavored, 10));
+
+    const { result, waitForNextUpdate } = renderHook(() => useInfuser(cup));
+    expect(result.current[0]).toBe(0);
+
+    const fn = jest.fn();
+    cup.on(tea => fn(tea));
+
+    await act(async () => {
+      await result.current[1]('1');
+    });
+
+    expect(cup()).toBe(1);
+    expect(fn).toHaveBeenCalledWith(1);
   });
 });

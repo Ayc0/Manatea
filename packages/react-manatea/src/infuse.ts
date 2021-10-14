@@ -3,11 +3,14 @@ import { Cup, Tea } from 'manatea';
 
 import { useInfuser } from './useInfuser';
 
-export const infuse = <T extends Tea>(cup: Cup<T>) => (
-  component: React.ComponentType<any>,
-) => {
+export const infuse = <
+  FlavoredTea extends Tea,
+  UnflavoredTea extends Tea = FlavoredTea
+>(
+  cup: Cup<FlavoredTea, UnflavoredTea>,
+) => (component: React.ComponentType<any>) => {
   const Consumer = (props: any) => {
-    const [tea] = useInfuser<T>(cup);
+    const [tea] = useInfuser<FlavoredTea, UnflavoredTea>(cup);
 
     return React.createElement(component, {
       ...props,

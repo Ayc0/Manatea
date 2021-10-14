@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest",
     "build": "./build.js",
-    "deploy": "yarn build && ./deploy.js"
+    "deploy": "yarn build && yarn test && ./deploy.js"
   },
   "devDependencies": {
     "@testing-library/react-hooks": "^5.1.2",

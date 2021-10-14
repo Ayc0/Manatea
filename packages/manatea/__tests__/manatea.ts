@@ -73,7 +73,16 @@ describe('Manatea', () => {
   });
 
   it('should have flavors', async () => {
-    const cup = orderCup('0' as string, unflavored => parseInt(unflavored, 10));
+    const cup = orderCup<number, string>(
+      '0',
+      (unflavored, previouslyFlavored) => {
+        const flavored = parseInt(unflavored, 10);
+        if (previouslyFlavored == null) {
+          return flavored;
+        }
+        return flavored + previouslyFlavored;
+      },
+    );
     const fn = jest.fn();
     cup.on(tea => fn(tea));
     expect(cup()).toBe(0);
@@ -81,5 +90,9 @@ describe('Manatea', () => {
     await cup('1');
     expect(cup()).toBe(1);
     expect(fn).toHaveBeenCalledWith(1);
+
+    await cup('2');
+    expect(cup()).toBe(3);
+    expect(fn).toHaveBeenCalledWith(3);
   });
 });

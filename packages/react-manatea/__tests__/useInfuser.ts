@@ -48,7 +48,16 @@ describe('useInfuser', () => {
   });
 
   it('should have flavors', async () => {
-    const cup = orderCup('0' as string, unflavored => parseInt(unflavored, 10));
+    const cup = orderCup<number, string>(
+      '0',
+      (unflavored, previouslyFlavored) => {
+        const flavored = parseInt(unflavored, 10);
+        if (previouslyFlavored == null) {
+          return flavored;
+        }
+        return flavored + previouslyFlavored;
+      },
+    );
 
     const { result, waitForNextUpdate } = renderHook(() => useInfuser(cup));
     expect(result.current[0]).toBe(0);
@@ -59,8 +68,13 @@ describe('useInfuser', () => {
     await act(async () => {
       await result.current[1]('1');
     });
-
     expect(cup()).toBe(1);
     expect(fn).toHaveBeenCalledWith(1);
+
+    await act(async () => {
+      await result.current[1]('2');
+    });
+    expect(cup()).toBe(3);
+    expect(fn).toHaveBeenCalledWith(3);
   });
 });

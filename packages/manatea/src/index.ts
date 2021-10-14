@@ -41,15 +41,18 @@ export function orderCup<
   UnflavoredTea extends Tea = FlavoredTea
 >(
   firstTea: UnflavoredTea,
-  flavoring: (tea: UnflavoredTea) => FlavoredTea = t => t as any,
+  flavoring: (
+    tea: UnflavoredTea,
+    previousTea?: FlavoredTea,
+  ) => FlavoredTea = t => t as any,
 ): Cup<FlavoredTea, UnflavoredTea> {
   let handlers = new Set<Handler<FlavoredTea>>();
   let flavoredTea = flavoring(firstTea);
 
   let isPreviousCancelled = { cancelled: false };
 
-  const setTea = (teaRefill: UnflavoredTea, context: Context) => {
-    const flavoredTeaRefill = flavoring(teaRefill);
+  const setTea = (unflavoredTea: UnflavoredTea, context: Context) => {
+    const flavoredTeaRefill = flavoring(unflavoredTea, flavoredTea);
     if (
       flavoredTea === flavoredTeaRefill ||
       (Number.isNaN(flavoredTea as any) &&

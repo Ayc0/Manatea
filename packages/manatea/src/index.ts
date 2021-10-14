@@ -11,8 +11,8 @@ export type Tea =
   | Map<any, any>
   | Set<any>;
 
-type Handler<UnflavoredTea extends Tea> = (
-  tea: UnflavoredTea,
+type Handler<FlavoredTea extends Tea> = (
+  flavoredTea: FlavoredTea,
   context: Context,
 ) => void;
 export interface Server {
@@ -21,7 +21,7 @@ export interface Server {
 }
 
 type Order<FlavoredTea extends Tea, UnflavoredTea extends Tea> =
-  | ((tea: FlavoredTea) => UnflavoredTea | Promise<UnflavoredTea>)
+  | ((flavoredTea: FlavoredTea) => UnflavoredTea | Promise<UnflavoredTea>)
   | UnflavoredTea;
 
 export interface Cup<FlavoredTea extends Tea, UnflavoredTea extends Tea> {
@@ -42,8 +42,8 @@ export function orderCup<
 >(
   firstTea: UnflavoredTea,
   flavoring: (
-    tea: UnflavoredTea,
-    previousTea?: FlavoredTea,
+    unflavoredTea: UnflavoredTea,
+    previouslyFlavoredTea?: FlavoredTea,
   ) => FlavoredTea = t => t as any,
 ): Cup<FlavoredTea, UnflavoredTea> {
   let handlers = new Set<Handler<FlavoredTea>>();

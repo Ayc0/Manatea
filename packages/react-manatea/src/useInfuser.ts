@@ -7,11 +7,13 @@ export const useInfuser = <
 >(
   cup: Cup<FlavoredTea, UnflavoredTea>,
 ) => {
-  const [tea, setTea] = React.useState(() => cup());
+  const [flavoredTea, setFlavoredTea] = React.useState(() => cup());
 
   React.useEffect(() => {
-    const server: Server = cup.on((tea: FlavoredTea) => setTea(tea));
-    setTea(cup());
+    const server: Server = cup.on((newlyFlavoredTea: FlavoredTea) =>
+      setFlavoredTea(newlyFlavoredTea),
+    );
+    setFlavoredTea(cup());
     return () => {
       if (server.listening) {
         server();
@@ -20,7 +22,8 @@ export const useInfuser = <
   }, [cup]);
 
   return [
-    tea,
-    (tea: UnflavoredTea, context?: Context) => cup(tea, context),
+    flavoredTea,
+    (unflavoredTea: UnflavoredTea, context?: Context) =>
+      cup(unflavoredTea, context),
   ] as const;
 };

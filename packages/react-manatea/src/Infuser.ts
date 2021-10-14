@@ -5,7 +5,7 @@ import { useInfuser } from './useInfuser';
 
 interface InfuserProps<FlavoredTea extends Tea, UnflavoredTea extends Tea> {
   cup: Cup<FlavoredTea, UnflavoredTea>;
-  children: (tea: FlavoredTea) => ReactNode;
+  children: (flavoredTea: FlavoredTea) => ReactNode;
 }
 
 export const Infuser = <
@@ -15,6 +15,6 @@ export const Infuser = <
   cup,
   children,
 }: InfuserProps<FlavoredTea, UnflavoredTea>) => {
-  const [tea] = useInfuser<FlavoredTea, UnflavoredTea>(cup);
-  return children(tea);
+  const [flavoredTea] = useInfuser<FlavoredTea, UnflavoredTea>(cup);
+  return children(flavoredTea);
 };

@@ -53,11 +53,8 @@ export function orderCup<
 
   const setTea = (unflavoredTea: UnflavoredTea, context: Context) => {
     const flavoredTeaRefill = flavoring(unflavoredTea, flavoredTea);
-    if (
-      flavoredTea === flavoredTeaRefill ||
-      (Number.isNaN(flavoredTea as any) &&
-        Number.isNaN(flavoredTeaRefill as any))
-    ) {
+    // Object.is is like `===` but consider that NaN === NaN, and +0 !== -0
+    if (Object.is(flavoredTea, flavoredTeaRefill)) {
       return;
     }
     isPreviousCancelled.cancelled = true;

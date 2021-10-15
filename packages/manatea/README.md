@@ -30,15 +30,15 @@ Here is the reason behind all our names:
 
 But as those can be confusing, he is an equivalent to all our names in more usual words:
 
-| In `manatea`    | More generic names | Explanation                                                                                                                                                                                                                  |
-| --------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `orderCup`      | create store       | Create an object than can contain a value, gives access to read or modify this value, and provides a way to add listeners that will get called when the value changes.                                                       |
-| `flavoredTea`   | value              | Value stored within the _cup_                                                                                                                                                                                                |
-| `firstTea`      | initial value      | Value present within the _cup_ when it was first created                                                                                                                                                                     |
-| `Order`         | value setter       | When the _cup_ needs to be updated, we can either provide a new value, or a function that will give access to the current value in order to compute the new one.                                                             |
-| `unflavoredTea` | new value          | New value provided to the _cup_ that will be used as the new internal value (after going through the `flavoring` phase). Either the value of the _order_, or its returned value if it was a function.                        |
-| `flavoring`     | transformer        | When a _unflavoredTea_ (dirty value) is passed to the _cup_, you may want to restrict it to a range of allowed values. The _flavoring_ can transformed this provided _unflavoredTea_ to a _flavoredTea_ one (a clean value). |
-| `server`        | listener           | When the internal _tea_ changes, _servers_ will get called with the new value.                                                                                                                                               |
+| In `manatea`    | More generic names | Explanation                                                                                                                                                                                                                |
+| --------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `orderCup`      | create store       | Create an object that can contain a value, gives access to read or modify this value, and provides a way to add listeners that will get called when the value changes.                                                     |
+| `flavoredTea`   | value              | Value stored within the _cup_                                                                                                                                                                                              |
+| `firstTea`      | initial value      | Value present within the _cup_ when it was first created                                                                                                                                                                   |
+| `Order`         | value setter       | When the _cup_ needs to be updated, we can either provide a new value, or a function that will give access to the current value in order to compute the new one.                                                           |
+| `unflavoredTea` | new value          | New value provided to the _cup_ that will be used as the new internal value (after going through the `flavoring` phase). Either the value of the _order_, or its returned value if it was a function.                      |
+| `flavoring`     | transformer        | When a _unflavoredTea_ (dirty value) is passed to the _cup_, you may want to restrict it to a range of allowed values. The _flavoring_ can transform this provided _unflavoredTea_ to a _flavoredTea_ one (a clean value). |
+| `server`        | listener           | When the internal _tea_ changes, _servers_ will get called with the new value.                                                                                                                                             |
 
 ## How to use
 
@@ -47,44 +47,55 @@ But as those can be confusing, he is an equivalent to all our names in more usua
 ```js
 import { orderCup } from 'manatea';
 
-// Defining a cup
-const counter = orderCup(0);
+// Define (order) a cup with a default value (tea) of 0
+const cup = orderCup(0);
 ```
 
 ### Read cup's tea
 
 ```js
-// Accessing the tea
-counter(); // 2;
+// Return current value (tea) of the cup
+cup(); // 0;
 ```
 
 ### Update cup's tea
 
 ```js
-counter(1);
+// Set value (tea) to 1
+cup(1);
 
-counter(tea => tea + 1);
+// increment the stored value (tea) by 1
+cup(tea => tea + 1);
 
 // Supports async functions
-counter(async tea => {
+// wait 1 second and then increment the tea by 5
+cup(async tea => {
   await sleep(1);
   return tea + 5;
 });
 
-counter(tea => {
+// You can also read from cup to set another cup's value
+cup(tea => {
   const otherTea = otherCup();
   return tea + otherTea;
 });
+```
 
-// Every update functions return promises
-counter(tea => tea + 1).then(tea => console.log(tea));
+Every update made to a cup returns a promise:
+
+```js
+// wait for the value to be stored and dispatched
+await cup(1);
+
+// you can also use the regular .then() method
+cup(tea => tea + 1).then(tea => console.log(tea));
 ```
 
 ### Flavoring
 
 #### Simple flavors
 
-When a new unflavored tea is passed to cup, you may want to apply restrictions to it.
+When a new unflavored tea is passed to the cup, you may want to apply restrictions to it.
 
 For instance, if your `flavoredTea` is a number, you may want to set bounds to it:
 
@@ -146,23 +157,48 @@ cup(); // 7 – because 5 + 2 = 7
 
 ### Cup's servers
 
+From any cup, you can create servers that will alert you when the tea stored in the cup changes (they are like event listeners).
+
 #### Creating a server
 
 ```js
-// Add server
-const server = counter.on(tea => console.log(tea));
+// Create server
+const server = cup.on(tea => console.log(tea));
 ```
 
 #### Clearing a server
 
+You can clear a server (stop the listener) by calling it:
+
 ```js
-server.listening; // true
+const server = cup.on(console.log);
+// here the server will be called on each update of the cup
+
+// but by calling `server()`, it won't receive any update anymore
 server();
-server.listening; // false
+```
 
-// OR
+You can clear all the servers that are listening to a cup by calling `cup.clear()` on the cup itself:
 
-server.listening; // true
-counter.clear();
-server.listening; // false
+```js
+const server1 = cup.on(console.log);
+const server2 = cup.on(console.log);
+
+cup.clear(); // both server1 and server2 will be stopped
+```
+
+At any moment, you can check if a server is running by checking its `listening` attribute:
+
+```js
+const server1 = cup.on(console.log);
+const server2 = cup.on(console.log);
+
+server1.listening; // true
+server2.listening; // true
+
+server1();
+server1.listening; // false
+
+cup.clear();
+server2.listening; // false
 ```

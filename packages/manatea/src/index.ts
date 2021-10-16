@@ -7,7 +7,7 @@ export type Tea =
   | symbol
   | Date
   | any[]
-  | Record<string, unknown> // better type than `object` to type a random object
+  | object
   | Map<any, any>
   | Set<any>;
 

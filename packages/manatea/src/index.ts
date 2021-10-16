@@ -21,8 +21,8 @@ export interface Server {
 }
 
 type Order<FlavoredTea extends Tea, UnflavoredTea extends Tea> =
-  | ((flavoredTea: FlavoredTea) => UnflavoredTea | Promise<UnflavoredTea>)
-  | UnflavoredTea;
+  | UnflavoredTea
+  | ((flavoredTea: FlavoredTea) => UnflavoredTea | Promise<UnflavoredTea>);
 
 export interface Cup<FlavoredTea extends Tea, UnflavoredTea extends Tea> {
   (): FlavoredTea;

@@ -82,7 +82,8 @@ export function orderCup<
       return flavoredTea;
     }
     return Promise.resolve(
-      typeof order === 'function' ? order(flavoredTea) : order,
+      // safe to do `order!` as the case `arguments.length === 0` already covers the `order?` set in the signature
+      typeof order === 'function' ? order(flavoredTea) : order!,
     ).then(teaRefill => {
       if (context.has(cup)) {
         return flavoredTea;

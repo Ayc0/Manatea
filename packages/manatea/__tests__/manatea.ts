@@ -24,26 +24,14 @@ describe('Manatea', () => {
   });
 
   it('should have clearable servers', async () => {
-    {
-      const cup = orderCup<number>(1);
-      const fn = jest.fn();
-      const server = cup.on(fn);
-      expect(server.listening).toBe(true);
-      server();
-      expect(server.listening).toBe(false);
-      await cup(2);
-      expect(fn).not.toHaveBeenCalled();
-    }
-    {
-      const cup = orderCup<number>(1);
-      const fn = jest.fn();
-      const server = cup.on(fn);
-      expect(server.listening).toBe(true);
-      cup.clear();
-      expect(server.listening).toBe(false);
-      await cup(2);
-      expect(fn).not.toHaveBeenCalled();
-    }
+    const cup = orderCup<number>(1);
+    const fn = jest.fn();
+    const server = cup.on(fn);
+    expect(server.listening).toBe(true);
+    server();
+    expect(server.listening).toBe(false);
+    await cup(2);
+    expect(fn).not.toHaveBeenCalled();
   });
 
   it('shouldn’t create infinite loops', async () => {

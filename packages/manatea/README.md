@@ -178,27 +178,13 @@ const server = cup.on(console.log);
 server();
 ```
 
-You can clear all the servers that are listening to a cup by calling `cup.clear()` on the cup itself:
-
-```js
-const server1 = cup.on(console.log);
-const server2 = cup.on(console.log);
-
-cup.clear(); // both server1 and server2 will be stopped
-```
-
 At any moment, you can check if a server is running by checking its `listening` attribute:
 
 ```js
-const server1 = cup.on(console.log);
-const server2 = cup.on(console.log);
+const server = cup.on(console.log);
 
-server1.listening; // true
-server2.listening; // true
+server.listening; // true
 
-server1();
-server1.listening; // false
-
-cup.clear();
-server2.listening; // false
+server();
+server.listening; // false
 ```

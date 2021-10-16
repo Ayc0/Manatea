@@ -31,7 +31,6 @@ export interface Cup<FlavoredTea extends Tea, UnflavoredTea extends Tea> {
     context?: Context,
   ): Promise<FlavoredTea>;
   on: (fn: Handler<FlavoredTea>) => Server;
-  clear: () => void;
 }
 
 export type Context = WeakSet<Cup<any, any>>;
@@ -102,8 +101,6 @@ export function orderCup<
     });
     return server as Server;
   };
-
-  cup.clear = () => handlers.clear();
 
   return cup;
 }

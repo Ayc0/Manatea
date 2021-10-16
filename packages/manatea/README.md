@@ -18,6 +18,7 @@ This package has no dependencies and weights less than 1kB (and less than 500B g
    5. [Cup's servers](#cups-servers)
       1. [Creating a server](#creating-a-server)
       2. [Clearing a server](#clearing-a-server)
+   6. [Derived cup](#derived-cup)
 
 ## Lexicon
 
@@ -187,4 +188,45 @@ server.listening; // true
 
 server();
 server.listening; // false
+```
+
+### Derived cup
+
+You can create a cup based on another one, or multiple other ones:
+
+```js
+const cup1 = orderCup(0);
+const cup2 = orderCup(0);
+const derivedCup = orderCup(sip => sip(cup1) + sip(cup2));
+
+derivedCup(); // 0
+
+await cup1(1);
+await cup1(4);
+derivedCup(); // 5
+```
+
+And it supports the same feature are regular cup:
+
+- flavoring
+- servers
+- it's tea can be updated
+
+```js
+const countString = orderCup('0');
+const cumulatedCountNumber = orderCup(
+  sip => sip(countString),
+  (newValue, previousTotal = 0) => {
+    return Number(newValue) + previousTotal;
+  },
+);
+
+cumulatedCountNumber.on(newTotal => console.log(newTotal));
+await countString('5');
+cumulatedCountNumber(); // 5 (0 + 5)
+
+// you can also call `cumulatedCountNumber` directly if yo want:
+await cumulatedCountNumber('12');
+
+cumulatedCountNumber(); // 17 (5 + 12)
 ```

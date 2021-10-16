@@ -39,14 +39,17 @@ export function orderCup<
   FlavoredTea extends Tea,
   UnflavoredTea extends Tea = FlavoredTea
 >(
-  firstTea: UnflavoredTea,
+  firstTea: UnflavoredTea | ((sip: Sip) => UnflavoredTea),
   flavoring: (
     unflavoredTea: UnflavoredTea,
     previouslyFlavoredTea?: FlavoredTea,
   ) => FlavoredTea = t => t as any,
 ): Cup<FlavoredTea, UnflavoredTea> {
   let handlers = new Set<Handler<FlavoredTea>>();
-  let flavoredTea = flavoring(firstTea);
+  const [sip, cups] = takeASip();
+  let flavoredTea: FlavoredTea = flavoring(
+    typeof firstTea === 'function' ? firstTea(sip) : firstTea,
+  );
 
   let isPreviousCancelled = { cancelled: false };
 
@@ -67,6 +70,14 @@ export function orderCup<
       handler(flavoredTea, context);
     });
   };
+
+  if (typeof firstTea === 'function') {
+    cups.forEach(c => {
+      c.on((_tea, context) => {
+        setTea(firstTea(sip), context);
+      });
+    });
+  }
 
   function cup(): FlavoredTea;
   function cup(
@@ -103,4 +114,16 @@ export function orderCup<
   };
 
   return cup;
+}
+
+type Sip = <C extends Cup<any, any>>(
+  cup: C,
+) => C extends Cup<infer FlavoredTea, any> ? FlavoredTea : never;
+function takeASip() {
+  const cups = new Set<Cup<any, any>>();
+  const sip: Sip = cup => {
+    cups.add(cup);
+    return cup();
+  };
+  return [sip, cups] as const;
 }

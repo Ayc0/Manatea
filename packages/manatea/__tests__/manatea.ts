@@ -83,4 +83,104 @@ describe('Manatea', () => {
     expect(cup()).toBe(3);
     expect(fn).toHaveBeenCalledWith(3);
   });
+
+  describe('derived cups', () => {
+    it('should have a valid default value', () => {
+      const cup1 = orderCup<number>(1);
+      const cup2 = orderCup<number>(2);
+      const derivedCup = orderCup(sip => {
+        const tea1 = sip(cup1);
+        const tea2 = sip(cup2);
+        return tea1 + tea2;
+      });
+      expect(derivedCup()).toBe(3);
+    });
+
+    it('should respond to changes', async () => {
+      const cup1 = orderCup<number>(1);
+      const cup2 = orderCup<number>(2);
+      const derivedCup = orderCup(sip => {
+        const tea1 = sip(cup1);
+        const tea2 = sip(cup2);
+        return tea1 + tea2;
+      });
+
+      const fn = jest.fn();
+      derivedCup.on(tea => fn(tea));
+
+      await cup2(5);
+      await cup1(10);
+
+      expect(derivedCup()).toBe(15);
+      expect(fn).toHaveBeenCalledTimes(2);
+      expect(fn).toHaveBeenCalledWith(6);
+      expect(fn).toHaveBeenCalledWith(15);
+    });
+
+    it('should be handle to re-use the same cup multiple times', async () => {
+      const cup = orderCup<number>(1);
+      const derivedCup = orderCup(sip => {
+        return sip(cup) + sip(cup);
+      });
+
+      const fn = jest.fn();
+      derivedCup.on(tea => fn(tea));
+
+      await cup(2);
+
+      expect(derivedCup()).toBe(4);
+      expect(fn).toHaveBeenCalledTimes(1);
+    });
+
+    it('supports flavoring', async () => {
+      const cup1 = orderCup<string>('1');
+      const cup2 = orderCup<string>('2');
+      const derivedCup = orderCup(
+        sip => {
+          const tea1 = sip(cup1);
+          const tea2 = sip(cup2);
+          return tea1 + tea2;
+        },
+        unflavoredTea => Number(unflavoredTea),
+      );
+
+      const fn = jest.fn();
+      derivedCup.on(tea => fn(tea));
+
+      expect(derivedCup()).toBe(12);
+
+      await cup2('5');
+      await cup1('10');
+      expect(derivedCup()).toBe(105);
+
+      expect(fn).toHaveBeenCalledTimes(2);
+      expect(fn).toHaveBeenCalledWith(15);
+      expect(fn).toHaveBeenCalledWith(105);
+    });
+
+    it('works with setters', async () => {
+      const cup = orderCup<number>(0);
+      const flavoring = jest.fn((unflavoredTea: number) => unflavoredTea);
+      const derivedCup = orderCup(
+        sip => sip(cup),
+        unflavoredTea => flavoring(unflavoredTea),
+      );
+
+      // Change inner value when setting it
+      await derivedCup(-1);
+      expect(derivedCup()).toBe(-1);
+
+      const fn = jest.fn();
+      derivedCup.on(tea => fn(tea));
+
+      // Here `cup`'s tea doesn't change, even if the derivedCup's one did, so derivedCup's value won't get updated
+      await cup(0);
+      expect(fn).not.toHaveBeenCalled();
+      expect(derivedCup()).toBe(-1);
+
+      // But if cup's tea changes, derivedCup's tea will be updated
+      await cup(1);
+      expect(derivedCup()).toBe(1);
+    });
+  });
 });

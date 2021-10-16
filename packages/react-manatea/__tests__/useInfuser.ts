@@ -77,4 +77,18 @@ describe('useInfuser', () => {
     expect(cup()).toBe(3);
     expect(fn).toHaveBeenCalledWith(3);
   });
+
+  it('should work with derived cups', async () => {
+    const cup = orderCup<number>(0);
+    const derivedCup = orderCup(sip => sip(cup) + 2);
+
+    const { result } = renderHook(() => useInfuser(derivedCup));
+    expect(result.current[0]).toBe(2);
+
+    await act(async () => {
+      await cup(2);
+    });
+
+    expect(result.current[0]).toBe(4);
+  });
 });

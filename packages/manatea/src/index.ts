@@ -45,26 +45,26 @@ export function orderCup<
     previouslyFlavoredTea?: FlavoredTea,
   ) => FlavoredTea = t => t as any,
 ): Cup<FlavoredTea, UnflavoredTea> {
-  let handlers = new Set<Handler<FlavoredTea>>();
   const [sip, cups] = takeASip();
   let flavoredTea: FlavoredTea = flavoring(
     typeof firstTea === 'function' ? firstTea(sip) : firstTea,
   );
 
-  let isPreviousCancelled = { cancelled: false };
+  const handlers = new Set<Handler<FlavoredTea>>();
 
+  let isPreviousCancelled = { value: false };
   const setTea = (unflavoredTea: UnflavoredTea, context: Context) => {
     const flavoredTeaRefill = flavoring(unflavoredTea, flavoredTea);
     // Object.is is like `===` but consider that NaN === NaN, and +0 !== -0
     if (Object.is(flavoredTea, flavoredTeaRefill)) {
       return;
     }
-    isPreviousCancelled.cancelled = true;
-    const isCancelled = { cancelled: false };
+    isPreviousCancelled.value = true;
+    const isCancelled = { value: false };
     isPreviousCancelled = isCancelled;
     flavoredTea = flavoredTeaRefill;
     handlers.forEach(handler => {
-      if (isCancelled.cancelled) {
+      if (isCancelled.value) {
         return;
       }
       handler(flavoredTea, context);

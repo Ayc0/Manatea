@@ -35,7 +35,7 @@ describe('useInfuser', () => {
   it('should avoid infinite loops', async () => {
     const cup = orderCup<number>(0);
 
-    const { result, waitForNextUpdate } = renderHook(() => useInfuser(cup));
+    const { result } = renderHook(() => useInfuser(cup));
     expect(result.current[0]).toBe(0);
 
     cup.on((tea, context) => result.current[1](tea + 2, context));
@@ -59,7 +59,7 @@ describe('useInfuser', () => {
       },
     );
 
-    const { result, waitForNextUpdate } = renderHook(() => useInfuser(cup));
+    const { result } = renderHook(() => useInfuser(cup));
     expect(result.current[0]).toBe(0);
 
     const fn = jest.fn();

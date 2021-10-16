@@ -7,7 +7,7 @@ export type Tea =
   | symbol
   | Date
   | any[]
-  | object
+  | Record<string, unknown> // better type than `object` to type a random object
   | Map<any, any>
   | Set<any>;
 
@@ -82,7 +82,8 @@ export function orderCup<
       return flavoredTea;
     }
     return Promise.resolve(
-      typeof order === 'function' ? order(flavoredTea) : order,
+      // safe to do `order!` as the case `arguments.length === 0` already covers the `order?` set in the signature
+      typeof order === 'function' ? order(flavoredTea) : order!,
     ).then(teaRefill => {
       if (context.has(cup)) {
         return flavoredTea;

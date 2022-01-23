@@ -17,7 +17,6 @@ argv.splice(versionIndex, 2);
 updateAllVersions(version);
 deploy('manatea');
 deploy('react-manatea');
-restorePeerDeps();
 commit(version);
 addTag(version);
 push();
@@ -45,28 +44,6 @@ function* listAllWorkspaces() {
 function updateAllVersions(version) {
   for (const { packageJson, packageJsonPath } of listAllWorkspaces()) {
     packageJson.version = version;
-    if (
-      'peerDependencies' in packageJson &&
-      'manatea' in packageJson.peerDependencies
-    ) {
-      packageJson.peerDependencies.manatea = version;
-    }
-    fs.writeFileSync(
-      packageJsonPath,
-      JSON.stringify(packageJson, null, 2) + '\n',
-    );
-  }
-}
-
-function restorePeerDeps() {
-  for (const { packageJson, packageJsonPath } of listAllWorkspaces()) {
-    packageJson.version = version;
-    if (
-      'peerDependencies' in packageJson &&
-      'manatea' in packageJson.peerDependencies
-    ) {
-      packageJson.peerDependencies.manatea = '*';
-    }
     fs.writeFileSync(
       packageJsonPath,
       JSON.stringify(packageJson, null, 2) + '\n',

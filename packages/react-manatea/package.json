@@ -29,7 +29,7 @@
     "typescript": "^4.4.4"
   },
   "peerDependencies": {
-    "manatea": "*",
+    "manatea": "workspace:*",
     "react": ">=16.8.2"
   }
 }

@@ -3,7 +3,7 @@ import { Cup, Tea, Server, Context } from 'manatea';
 
 export const useInfuser = <
   FlavoredTea extends Tea,
-  UnflavoredTea extends Tea = FlavoredTea
+  UnflavoredTea extends Tea = FlavoredTea,
 >(
   cup: Cup<FlavoredTea, UnflavoredTea>,
 ) => {

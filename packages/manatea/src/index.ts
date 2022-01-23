@@ -37,7 +37,7 @@ export type Context = WeakSet<Cup<any, any>>;
 
 export function orderCup<
   FlavoredTea extends Tea,
-  UnflavoredTea extends Tea = FlavoredTea
+  UnflavoredTea extends Tea = FlavoredTea,
 >(
   firstTea: UnflavoredTea | ((sip: Sip) => UnflavoredTea),
   flavoring: (

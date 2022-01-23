@@ -1,14 +1,14 @@
-name: Unit tests
+name: Lint
 
 on: [push]
 
 jobs:
-  tests:
+  lint:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x, 17.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -18,7 +18,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
         run: yarn install
-      - name: Build packages
-        run: yarn build
-      - name: Run tests
-        run: yarn test
+      - name: Check linting
+        run: yarn lint:check

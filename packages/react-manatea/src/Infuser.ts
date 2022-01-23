@@ -10,7 +10,7 @@ interface InfuserProps<FlavoredTea extends Tea, UnflavoredTea extends Tea> {
 
 export const Infuser = <
   FlavoredTea extends Tea,
-  UnflavoredTea extends Tea = FlavoredTea
+  UnflavoredTea extends Tea = FlavoredTea,
 >({
   cup,
   children,

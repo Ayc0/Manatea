@@ -1,6 +1,6 @@
 {
   "name": "react-manatea",
-  "version": "0.5.1",
+  "version": "0.6.0-beta.0",
   "sideEffects": false,
   "source": "src/index.ts",
   "umd:main": "dist/react-manatea.umd.js",
@@ -21,11 +21,15 @@
     "build:action": "microbundle --name $npm_package_name --globals react=React",
     "build": "yarn build:clean && yarn build:action"
   },
+  "dependencies": {
+    "use-sync-external-store": "^1.1.0"
+  },
   "devDependencies": {
-    "@types/react": "^17.0.30",
+    "@types/react": "^18.0.9",
+    "@types/use-sync-external-store": "^0.0.3",
     "microbundle": "^0.14.1",
-    "react": "~17.0.2",
-    "react-test-renderer": "~17.0.2",
+    "react": "^18.1.0",
+    "react-test-renderer": "^18.1.0",
     "typescript": "^4.4.4"
   },
   "peerDependencies": {

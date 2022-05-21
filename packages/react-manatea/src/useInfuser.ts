@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Cup, Tea, Server, Context } from 'manatea';
+import { useSyncExternalStore } from 'use-sync-external-store/shim';
 
 export const useInfuser = <
   FlavoredTea extends Tea,
@@ -7,19 +8,14 @@ export const useInfuser = <
 >(
   cup: Cup<FlavoredTea, UnflavoredTea>,
 ) => {
-  const [flavoredTea, setFlavoredTea] = React.useState(() => cup());
-
-  React.useEffect(() => {
-    const server: Server = cup.on((newlyFlavoredTea: FlavoredTea) =>
-      setFlavoredTea(newlyFlavoredTea),
-    );
-    setFlavoredTea(cup());
-    return () => {
-      if (server.listening) {
-        server();
-      }
+  const subscribe = React.useMemo(() => {
+    return (notify: () => void) => {
+      const server: Server = cup.on(notify);
+      return () => server();
     };
   }, [cup]);
+
+  const flavoredTea = useSyncExternalStore<FlavoredTea>(subscribe, () => cup());
 
   return [
     flavoredTea,

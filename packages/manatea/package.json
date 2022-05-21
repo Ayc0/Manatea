@@ -28,7 +28,7 @@
     "build": "yarn build:clean && yarn build:action"
   },
   "devDependencies": {
-    "microbundle": "^0.14.1",
+    "microbundle": "^0.15.0",
     "typescript": "^4.6.4"
   }
 }

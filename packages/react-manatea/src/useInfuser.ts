@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Cup, Tea, Server, Context } from 'manatea';
+import { Cup, Tea, Waiter, Context } from 'manatea';
 import { useSyncExternalStore } from 'use-sync-external-store/shim';
 
 export const useInfuser = <
@@ -10,8 +10,8 @@ export const useInfuser = <
 ) => {
   const subscribe = React.useMemo(() => {
     return (notify: () => void) => {
-      const server: Server = cup.on(notify);
-      return () => server();
+      const waiter: Waiter = cup.on(notify);
+      return () => waiter();
     };
   }, [cup]);
 

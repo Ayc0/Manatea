@@ -23,13 +23,13 @@ describe('Manatea', () => {
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
-  it('should have clearable servers', async () => {
+  it('should have clearable waiters', async () => {
     const cup = orderCup<number>(1);
     const fn = jest.fn();
-    const server = cup.on(fn);
-    expect(server.listening).toBe(true);
-    server();
-    expect(server.listening).toBe(false);
+    const waiter = cup.on(fn);
+    expect(waiter.listening).toBe(true);
+    waiter();
+    expect(waiter.listening).toBe(false);
     await cup(2);
     expect(fn).not.toHaveBeenCalled();
   });

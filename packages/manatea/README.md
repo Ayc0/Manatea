@@ -15,9 +15,9 @@ This package has no dependencies and weights less than 1kB (and less than 500B g
       1. [Simple flavors](#simple-flavors)
       2. [Transformations](#transformations)
       3. [Adding flavors based on the previous flavors](#adding-flavors-based-on-the-previous-flavors)
-   5. [Cup's servers](#cups-servers)
-      1. [Creating a server](#creating-a-server)
-      2. [Clearing a server](#clearing-a-server)
+   5. [Cup's waiters](#cups-waiters)
+      1. [Calling a waiter](#calling-a-waiter)
+      2. [Firing a waiter](#firing-a-waiter)
    6. [Derived cup](#derived-cup)
 
 ## Lexicon
@@ -26,7 +26,7 @@ This package has no dependencies and weights less than 1kB (and less than 500B g
 
 Here is the reason behind all our names:
 
-> First you `order a cup` of `tea` filled with your `first tea`. Then you can place a new `order` and the `server` will `refill` your `cup` with a new tea.\
+> First you `order a cup` of `tea` filled with your `first tea`. Then you can place a new `order` and the `waiter` will `refill` your `cup` with a new tea.\
 > Depending on whether or not the tea suits you, you can add flavor to it with a `flavoring`.
 
 But as those can be confusing, he is an equivalent to all our names in more usual words:
@@ -39,7 +39,7 @@ But as those can be confusing, he is an equivalent to all our names in more usua
 | `Order`         | value setter       | When the _cup_ needs to be updated, we can either provide a new value, or a function that will give access to the current value in order to compute the new one.                                                           |
 | `unflavoredTea` | new value          | New value provided to the _cup_ that will be used as the new internal value (after going through the `flavoring` phase). Either the value of the _order_, or its returned value if it was a function.                      |
 | `flavoring`     | transformer        | When a _unflavoredTea_ (dirty value) is passed to the _cup_, you may want to restrict it to a range of allowed values. The _flavoring_ can transform this provided _unflavoredTea_ to a _flavoredTea_ one (a clean value). |
-| `server`        | listener           | When the internal _tea_ changes, _servers_ will get called with the new value.                                                                                                                                             |
+| `waiter`        | listener           | When the internal _tea_ changes, _waiters_ will get called with the new value.                                                                                                                                             |
 
 ## How to use
 
@@ -156,38 +156,38 @@ cup(5);
 cup(); // 7 – because 5 + 2 = 7
 ```
 
-### Cup's servers
+### Cup's waiters
 
-From any cup, you can create servers that will alert you when the tea stored in the cup changes (they are like event listeners).
+From any cup, you can call waiters that will alert you when the tea stored in the cup changes (they are like event listeners).
 
-#### Creating a server
+#### Calling a waiter
 
 ```js
-// Create server
-const server = cup.on(tea => console.log(tea));
+// Call the waiter
+const waiter = cup.on(tea => console.log(tea));
 ```
 
-#### Clearing a server
+#### Firing a waiter
 
-You can clear a server (stop the listener) by calling it:
+You can fire a waiter (stop the listener) by calling it:
 
 ```js
-const server = cup.on(console.log);
-// here the server will be called on each update of the cup
+const waiter = cup.on(console.log);
+// here the waiter will be called on each update of the cup
 
-// but by calling `server()`, it won't receive any update anymore
-server();
+// but by calling `waiter()`, it won't receive any update anymore
+waiter();
 ```
 
-At any moment, you can check if a server is running by checking its `listening` attribute:
+At any moment, you can check if a waiter is running by checking its `listening` attribute:
 
 ```js
-const server = cup.on(console.log);
+const waiter = cup.on(console.log);
 
-server.listening; // true
+waiter.listening; // true
 
-server();
-server.listening; // false
+waiter();
+waiter.listening; // false
 ```
 
 ### Derived cup
@@ -209,7 +209,7 @@ derivedCup(); // 5
 And it supports the same feature are regular cup:
 
 - flavoring
-- servers
+- waiters
 - it's tea can be updated
 
 ```js

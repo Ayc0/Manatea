@@ -34,6 +34,12 @@ describe('Manatea', () => {
     expect(fn).not.toHaveBeenCalled();
   });
 
+  it('can be used with functions', () => {
+    const fn = () => 1;
+    const cup = orderCup(() => fn);
+    expect(cup()).toEqual(fn);
+  });
+
   it('shouldn’t create infinite loops', async () => {
     const cup1 = orderCup<number>(0);
     const cup2 = orderCup<number>(0);

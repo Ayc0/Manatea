@@ -22,15 +22,15 @@
     "build": "yarn build:clean && yarn build:action"
   },
   "dependencies": {
-    "use-sync-external-store": "^1.1.0"
+    "use-sync-external-store": "^1.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.9",
+    "@types/react": "^18.0.30",
     "@types/use-sync-external-store": "^0.0.3",
-    "microbundle": "^0.15.0",
-    "react": "^18.1.0",
-    "react-test-renderer": "^18.1.0",
-    "typescript": "^4.6.4"
+    "microbundle": "^0.15.1",
+    "react": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
+    "typescript": "^5.0.2"
   },
   "peerDependencies": {
     "manatea": "workspace:*",

@@ -5,8 +5,17 @@
   "source": "src/index.ts",
   "umd:main": "dist/react-manatea.umd.js",
   "main": "dist/react-manatea.js",
-  "module": "dist/react-manatea.m.js",
-  "typings": "dist/index.d.ts",
+  "module": "dist/react-manatea.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/react-manatea.modern.mjs",
+      "browser": "./dist/react-manatea.modern.mjs",
+      "require": "./dist/react-manatea.js"
+    },
+    "./package.json": "./package.json"
+  },
   "license": "MIT",
   "author": "Ayc0",
   "repository": "git@github.com:Ayc0/Manatea.git",

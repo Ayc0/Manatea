@@ -4,6 +4,10 @@ Predictable micro state manager.
 
 This package has no dependencies and weights less than 1kB (and less than 500B gzipped).
 
+<center>
+<img width="200" alt="Manatea" src="../../docs/manatea-emoji.png">
+</center>
+
 ## Table of contents <!-- omit in toc -->
 
 1. [Lexicon](#lexicon)

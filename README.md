@@ -1,8 +1,12 @@
+## Manatea
+
 <center>
 <img width="200" alt="Manatea" src="./docs/manatea-emoji.png">
 <div>
 <small>Designed by <a href="https://www.anediaz.com/">Ane Diaz</a></small></div>
 </center>
+
+---
 
 Predictable micro state manager.
 

@@ -185,17 +185,6 @@ const waiter = cup.on(console.log);
 waiter();
 ```
 
-At any moment, you can check if a waiter is running by checking its `listening` attribute:
-
-```js
-const waiter = cup.on(console.log);
-
-waiter.listening; // true
-
-waiter();
-waiter.listening; // false
-```
-
 ### Derived cup
 
 You can create a cup based on another one, or multiple other ones:

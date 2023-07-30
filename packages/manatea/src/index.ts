@@ -17,7 +17,6 @@ type Handler<FlavoredTea extends Tea> = (
 ) => void;
 export interface Waiter {
   (): boolean;
-  listening: boolean;
 }
 
 type Order<FlavoredTea extends Tea, UnflavoredTea extends Tea> =
@@ -101,9 +100,6 @@ export function orderCup<
   cup.on = (fn: Handler<FlavoredTea>) => {
     handlers.add(fn);
     const waiter = () => handlers.delete(fn);
-    Object.defineProperty(waiter, 'listening', {
-      get: () => handlers.has(fn),
-    });
     return waiter as Waiter;
   };
 

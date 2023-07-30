@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Cup, Tea, Waiter, Context } from 'manatea';
-import { useSyncExternalStore } from 'use-sync-external-store/shim';
 
 export const useInfuser = <
   FlavoredTea extends Tea,
@@ -15,7 +14,9 @@ export const useInfuser = <
     };
   }, [cup]);
 
-  const flavoredTea = useSyncExternalStore<FlavoredTea>(subscribe, () => cup());
+  const flavoredTea = React.useSyncExternalStore<FlavoredTea>(subscribe, () =>
+    cup(),
+  );
 
   return [
     flavoredTea,

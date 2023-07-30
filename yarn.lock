@@ -2088,13 +2088,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/use-sync-external-store@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@types/use-sync-external-store@npm:0.0.3"
-  checksum: 161ddb8eec5dbe7279ac971531217e9af6b99f7783213566d2b502e2e2378ea19cf5e5ea4595039d730aa79d3d35c6567d48599f69773a02ffcff1776ec2a44e
-  languageName: node
-  linkType: hard
-
 "@types/yargs-parser@npm:*":
   version: 21.0.0
   resolution: "@types/yargs-parser@npm:21.0.0"
@@ -5994,15 +5987,13 @@ __metadata:
   resolution: "react-manatea@workspace:packages/react-manatea"
   dependencies:
     "@types/react": ^18.2.17
-    "@types/use-sync-external-store": ^0.0.3
     microbundle: ^0.15.1
     react: ^18.2.0
     react-test-renderer: ^18.2.0
     typescript: ^5.1.6
-    use-sync-external-store: ^1.2.0
   peerDependencies:
     manatea: "workspace:*"
-    react: ">=16.8.2"
+    react: ">=18.0.0"
   languageName: unknown
   linkType: soft
 
@@ -7018,15 +7009,6 @@ __metadata:
   bin:
     browserslist-lint: cli.js
   checksum: 12db73b4f63029ac407b153732e7cd69a1ea8206c9100b482b7d12859cd3cd0bc59c602d7ae31e652706189f1acb90d42c53ab24a5ba563ed13aebdddc5561a0
-  languageName: node
-  linkType: hard
-
-"use-sync-external-store@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "use-sync-external-store@npm:1.2.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 5c639e0f8da3521d605f59ce5be9e094ca772bd44a4ce7322b055a6f58eeed8dda3c94cabd90c7a41fb6fa852210092008afe48f7038792fd47501f33299116a
   languageName: node
   linkType: hard
 

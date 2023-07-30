@@ -16,9 +16,9 @@ describe('Manatea', () => {
   it('should be listenable', async () => {
     const cup = orderCup<number>(1);
     const fn = jest.fn();
-    cup.on(tea => fn(tea));
+    cup.on(fn);
     await cup(2);
-    expect(fn).toHaveBeenCalledWith(2);
+    expect(fn).toHaveBeenCalledWith(2, expect.anything());
     await cup(2);
     expect(fn).toHaveBeenCalledTimes(1);
   });
@@ -78,16 +78,16 @@ describe('Manatea', () => {
       },
     );
     const fn = jest.fn();
-    cup.on(tea => fn(tea));
+    cup.on(fn);
     expect(cup()).toBe(0);
 
     await cup('1');
     expect(cup()).toBe(1);
-    expect(fn).toHaveBeenCalledWith(1);
+    expect(fn).toHaveBeenCalledWith(1, expect.anything());
 
     await cup('2');
     expect(cup()).toBe(3);
-    expect(fn).toHaveBeenCalledWith(3);
+    expect(fn).toHaveBeenCalledWith(3, expect.anything());
   });
 
   describe('derived cups', () => {
@@ -112,15 +112,15 @@ describe('Manatea', () => {
       });
 
       const fn = jest.fn();
-      derivedCup.on(tea => fn(tea));
+      derivedCup.on(fn);
 
       await cup2(5);
       await cup1(10);
 
       expect(derivedCup()).toBe(15);
       expect(fn).toHaveBeenCalledTimes(2);
-      expect(fn).toHaveBeenCalledWith(6);
-      expect(fn).toHaveBeenCalledWith(15);
+      expect(fn).toHaveBeenCalledWith(6, expect.anything());
+      expect(fn).toHaveBeenCalledWith(15, expect.anything());
     });
 
     it('should be handle to re-use the same cup multiple times', async () => {
@@ -151,7 +151,7 @@ describe('Manatea', () => {
       );
 
       const fn = jest.fn();
-      derivedCup.on(tea => fn(tea));
+      derivedCup.on(fn);
 
       expect(derivedCup()).toBe(12);
 
@@ -160,8 +160,8 @@ describe('Manatea', () => {
       expect(derivedCup()).toBe(105);
 
       expect(fn).toHaveBeenCalledTimes(2);
-      expect(fn).toHaveBeenCalledWith(15);
-      expect(fn).toHaveBeenCalledWith(105);
+      expect(fn).toHaveBeenCalledWith(15, expect.anything());
+      expect(fn).toHaveBeenCalledWith(105, expect.anything());
     });
 
     it('works with setters', async () => {

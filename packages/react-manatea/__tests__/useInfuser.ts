@@ -63,19 +63,19 @@ describe('useInfuser', () => {
     expect(result.current[0]).toBe(0);
 
     const fn = jest.fn();
-    cup.on(tea => fn(tea));
+    cup.on(fn);
 
     await act(async () => {
       await result.current[1]('1');
     });
     expect(cup()).toBe(1);
-    expect(fn).toHaveBeenCalledWith(1);
+    expect(fn).toHaveBeenCalledWith(1, expect.anything());
 
     await act(async () => {
       await result.current[1]('2');
     });
     expect(cup()).toBe(3);
-    expect(fn).toHaveBeenCalledWith(3);
+    expect(fn).toHaveBeenCalledWith(3, expect.anything());
   });
 
   it('should work with derived cups', async () => {

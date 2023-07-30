@@ -34,12 +34,12 @@
     "use-sync-external-store": "^1.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.30",
+    "@types/react": "^18.2.17",
     "@types/use-sync-external-store": "^0.0.3",
     "microbundle": "^0.15.1",
     "react": "^18.2.0",
     "react-test-renderer": "^18.2.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
     "manatea": "workspace:*",

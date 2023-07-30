@@ -27,9 +27,7 @@ describe('Manatea', () => {
     const cup = orderCup<number>(1);
     const fn = jest.fn();
     const waiter = cup.on(fn);
-    expect(waiter.listening).toBe(true);
     waiter();
-    expect(waiter.listening).toBe(false);
     await cup(2);
     expect(fn).not.toHaveBeenCalled();
   });

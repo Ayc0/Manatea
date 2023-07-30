@@ -220,7 +220,7 @@ cumulatedCountNumber.on(newTotal => console.log(newTotal));
 await countString('5');
 cumulatedCountNumber(); // 5 (0 + 5)
 
-// you can also call `cumulatedCountNumber` directly if yo want:
+// you can also call `cumulatedCountNumber` directly if you want:
 await cumulatedCountNumber('12');
 
 cumulatedCountNumber(); // 17 (5 + 12)

@@ -25,7 +25,8 @@
     "javascript",
     "state",
     "immutable",
-    "lightweight"
+    "lightweight",
+    "atom"
   ],
   "files": [
     "dist"

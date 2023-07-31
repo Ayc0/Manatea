@@ -37,15 +37,15 @@ Here is the reason behind all our names:
 
 But as those can be confusing, he is an equivalent to all our names in more usual words:
 
-| In `manatea`    | More generic names | Explanation                                                                                                                                                                                                                |
-| --------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `orderCup`      | create store       | Create an object that can contain a value, gives access to read or modify this value, and provides a way to add listeners that will get called when the value changes.                                                     |
-| `flavoredTea`   | value              | Value stored within the _cup_                                                                                                                                                                                              |
-| `firstTea`      | initial value      | Value present within the _cup_ when it was first created                                                                                                                                                                   |
-| `Order`         | value setter       | When the _cup_ needs to be updated, we can either provide a new value, or a function that will give access to the current value in order to compute the new one.                                                           |
-| `unflavoredTea` | new value          | New value provided to the _cup_ that will be used as the new internal value (after going through the `flavoring` phase). Either the value of the _order_, or its returned value if it was a function.                      |
-| `flavoring`     | transformer        | When a _unflavoredTea_ (dirty value) is passed to the _cup_, you may want to restrict it to a range of allowed values. The _flavoring_ can transform this provided _unflavoredTea_ to a _flavoredTea_ one (a clean value). |
-| `waiter`        | listener           | When the internal _tea_ changes, _waiters_ will get called with the new value.                                                                                                                                             |
+| In `manatea`    | More generic names  | Explanation                                                                                                                                                                                                                |
+| --------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `orderCup`      | create atom (store) | Create an object that can contain a value, gives access to read or modify this value, and provides a way to add listeners that will get called when the value changes.                                                     |
+| `flavoredTea`   | value               | Value stored within the _cup_                                                                                                                                                                                              |
+| `firstTea`      | initial value       | Value present within the _cup_ when it was first created                                                                                                                                                                   |
+| `Order`         | value setter        | When the _cup_ needs to be updated, we can either provide a new value, or a function that will give access to the current value in order to compute the new one.                                                           |
+| `unflavoredTea` | new value           | New value provided to the _cup_ that will be used as the new internal value (after going through the `flavoring` phase). Either the value of the _order_, or its returned value if it was a function.                      |
+| `flavoring`     | transformer         | When a _unflavoredTea_ (dirty value) is passed to the _cup_, you may want to restrict it to a range of allowed values. The _flavoring_ can transform this provided _unflavoredTea_ to a _flavoredTea_ one (a clean value). |
+| `waiter`        | listener            | When the internal _tea_ changes, _waiters_ will get called with the new value.                                                                                                                                             |
 
 ## How to use
 

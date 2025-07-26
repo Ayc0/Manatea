@@ -2,7 +2,7 @@
 import { orderCup } from '../../manatea/src';
 import { useInfuser } from '../src';
 
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act, waitFor } from '@testing-library/react';
 
 describe('useInfuser', () => {
   it('should follow updates', async () => {
@@ -21,15 +21,16 @@ describe('useInfuser', () => {
   it('should trigger updates', async () => {
     const cup = orderCup<number>(0);
 
-    const { result, waitForNextUpdate } = renderHook(() => useInfuser(cup));
+    const { result } = renderHook(() => useInfuser(cup));
     expect(result.current[0]).toBe(0);
 
     act(() => {
       result.current[1](-1);
     });
-    await waitForNextUpdate();
 
-    expect(cup()).toBe(-1);
+    await waitFor(() => {
+      expect(cup()).toBe(-1);
+    });
   });
 
   it('should avoid infinite loops', async () => {

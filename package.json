@@ -1,13 +1,11 @@
 {
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "version": "1.0.0-alpha.1",
   "scripts": {
     "test": "jest",
     "build": "./build.js",
-    "deploy": "yarn build && yarn test && ./deploy.js",
+    "deploy": "pnpm build && pnpm test && ./deploy.js",
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write ."
   },
@@ -18,6 +16,5 @@
     "prettier": "^3.0.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
-  },
-  "version": "1.0.0-alpha.1"
+  }
 }

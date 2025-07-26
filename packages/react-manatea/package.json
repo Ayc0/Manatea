@@ -1,6 +1,6 @@
 {
   "name": "react-manatea",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "sideEffects": false,
   "source": "src/index.ts",
   "umd:main": "dist/react-manatea.umd.js",
@@ -28,7 +28,7 @@
     "start": "microbundle watch",
     "build:clean": "rm -rf dist",
     "build:action": "microbundle --name $npm_package_name --globals react=React",
-    "build": "yarn build:clean && yarn build:action"
+    "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
     "@types/react": "^18.2.17",

@@ -1,6 +1,1 @@
-{
-  "search.exclude": {
-    ".yarn/": true
-  },
-  "markdown.extension.toc.orderedList": true
-}
+{ "markdown.extension.toc.orderedList": true }

@@ -7,7 +7,7 @@ build('manatea');
 build('react-manatea');
 
 function build(package) {
-  cp.spawnSync('yarn', ['build'], {
+  cp.spawnSync('pnpm', ['build'], {
     cwd: path.join(__dirname, 'packages', package),
     stdio: 'inherit',
   });

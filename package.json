@@ -2,6 +2,11 @@
   "license": "MIT",
   "private": true,
   "version": "1.0.0-alpha.1",
+  "volta": {
+    "node": "22.11.0",
+    "pnpm": "10.13.1"
+  },
+  "packageManager": "pnpm@10.13.1",
   "scripts": {
     "test": "jest",
     "build": "./build.js",

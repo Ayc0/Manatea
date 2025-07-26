@@ -48,7 +48,7 @@ function updateAllVersions(version) {
 }
 
 function deploy(package) {
-  cp.spawnSync('pnpm', ['publish', ...argv], {
+  cp.spawnSync('pnpm', ['publish', '--no-git-checks', ...argv], {
     cwd: path.join(__dirname, 'packages', package),
     stdio: 'inherit',
   });

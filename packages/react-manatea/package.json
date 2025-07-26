@@ -26,15 +26,22 @@
   ],
   "scripts": {
     "start": "microbundle watch",
+    "test": "jest",
     "build:clean": "rm -rf dist",
     "build:action": "microbundle --name $npm_package_name --globals react=React",
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
-    "@types/react": "^18.2.17",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "jest": "^30.0.5",
+    "jest-environment-jsdom": "^30.0.5",
     "microbundle": "^0.15.1",
-    "react": "^18.2.0",
-    "react-test-renderer": "^18.2.0",
+    "react": "^19.1.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
   },
   "peerDependencies": {

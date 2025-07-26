@@ -33,12 +33,16 @@
   ],
   "scripts": {
     "start": "microbundle watch",
+    "test": "jest",
     "build:clean": "rm -rf dist",
     "build:action": "microbundle",
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.5",
     "microbundle": "^0.15.1",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
   }
 }

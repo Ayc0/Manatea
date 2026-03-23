@@ -5,16 +5,16 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     assignees:
       - Ayc0
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     assignees:
       - Ayc0
     schedule:
-      interval: "weekly"
+      interval: 'weekly'

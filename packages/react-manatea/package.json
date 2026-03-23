@@ -32,17 +32,18 @@
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.3.0",
+    "@swc/core": "^1.15.21",
+    "@swc/jest": "^0.2.39",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
     "@types/jest": "^30.0.0",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "jest": "^30.0.5",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "microbundle": "^0.15.1",
-    "react": "^19.1.0",
-    "ts-jest": "^29.4.6",
-    "typescript": "^5.1.6"
+    "react": "^19.2.4",
+    "typescript": "^6.0.2"
   },
   "peerDependencies": {
     "manatea": "workspace:*",

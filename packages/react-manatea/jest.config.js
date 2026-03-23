@@ -1,1 +1,6 @@
-module.exports = { preset: 'ts-jest', testEnvironment: 'jsdom' };
+module.exports = {
+  transform: {
+    '^.+\\.(t|j)sx?$': '@swc/jest',
+  },
+  testEnvironment: 'jsdom',
+};

@@ -39,10 +39,11 @@
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
+    "@swc/core": "^1.15.21",
+    "@swc/jest": "^0.2.39",
     "@types/jest": "^30.0.0",
-    "jest": "^30.0.5",
+    "jest": "^30.3.0",
     "microbundle": "^0.15.1",
-    "ts-jest": "^29.4.6",
-    "typescript": "^5.1.6"
+    "typescript": "^6.0.2"
   }
 }

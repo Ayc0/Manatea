@@ -44,6 +44,6 @@
     "@types/jest": "^30.0.0",
     "jest": "^30.3.0",
     "microbundle": "^0.15.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   }
 }

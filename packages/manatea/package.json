@@ -4,15 +4,14 @@
   "sideEffects": false,
   "source": "src/index.ts",
   "umd:main": "dist/manatea.umd.js",
-  "main": "dist/manatea.js",
+  "main": "dist/manatea.cjs",
   "module": "dist/manatea.mjs",
-  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/manatea.modern.mjs",
-      "browser": "./dist/manatea.modern.mjs",
-      "require": "./dist/manatea.js"
+      "require": "./dist/manatea.cjs",
+      "import": "./dist/manatea.mjs",
+      "browser": "./dist/manatea.mjs",
+      "umd": "./dist/manatea.umd.js"
     },
     "./package.json": "./package.json"
   },
@@ -32,10 +31,10 @@
     "dist"
   ],
   "scripts": {
-    "start": "microbundle watch",
+    "start": "tsdown --watch",
     "test": "jest",
     "build:clean": "rm -rf dist",
-    "build:action": "microbundle",
+    "build:action": "tsdown",
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
@@ -43,7 +42,7 @@
     "@swc/jest": "^0.2.39",
     "@types/jest": "^30.0.0",
     "jest": "^30.3.0",
-    "microbundle": "^0.15.1",
+    "tsdown": "^0.21.10",
     "typescript": "^6.0.3"
   }
 }

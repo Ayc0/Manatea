@@ -4,15 +4,14 @@
   "sideEffects": false,
   "source": "src/index.ts",
   "umd:main": "dist/react-manatea.umd.js",
-  "main": "dist/react-manatea.js",
+  "main": "dist/react-manatea.cjs",
   "module": "dist/react-manatea.mjs",
-  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/react-manatea.modern.mjs",
-      "browser": "./dist/react-manatea.modern.mjs",
-      "require": "./dist/react-manatea.js"
+      "require": "./dist/react-manatea.cjs",
+      "import": "./dist/react-manatea.mjs",
+      "browser": "./dist/react-manatea.mjs",
+      "umd": "./dist/react-manatea.umd.js"
     },
     "./package.json": "./package.json"
   },
@@ -25,10 +24,10 @@
     "dist"
   ],
   "scripts": {
-    "start": "microbundle watch",
+    "start": "tsdown --watch",
     "test": "jest",
     "build:clean": "rm -rf dist",
-    "build:action": "microbundle --name $npm_package_name --globals react=React",
+    "build:action": "tsdown",
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
@@ -41,9 +40,9 @@
     "@types/react-dom": "^19.2.3",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
-    "microbundle": "^0.15.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "tsdown": "^0.21.10",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {

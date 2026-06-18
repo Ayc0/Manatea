@@ -31,7 +31,7 @@
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
-    "@swc/core": "^1.15.40",
+    "@swc/core": "^1.15.41",
     "@swc/jest": "^0.2.39",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",

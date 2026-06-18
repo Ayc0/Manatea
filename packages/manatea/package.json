@@ -38,7 +38,7 @@
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
-    "@swc/core": "^1.15.40",
+    "@swc/core": "^1.15.41",
     "@swc/jest": "^0.2.39",
     "@types/jest": "^30.0.0",
     "jest": "^30.4.2",

@@ -18,6 +18,10 @@ updates:
           - 'react-dom'
           - '@types/react'
           - '@types/react-dom'
+      tooling:
+        patterns:
+          - 'typescript'
+          - 'tsdown'
 
   - package-ecosystem: 'github-actions'
     directory: '/'

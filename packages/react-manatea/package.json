@@ -42,8 +42,8 @@
     "jest-environment-jsdom": "^30.4.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "tsdown": "^0.22.3",
-    "typescript": "^6.0.3"
+    "tsdown": "^0.22.4",
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "manatea": "workspace:*",

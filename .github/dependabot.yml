@@ -22,6 +22,7 @@ updates:
         patterns:
           - 'typescript'
           - 'tsdown'
+          - 'prettier'
 
   - package-ecosystem: 'github-actions'
     directory: '/'

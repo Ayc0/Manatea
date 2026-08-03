@@ -23,6 +23,7 @@ updates:
           - 'typescript'
           - 'tsdown'
           - 'prettier'
+          - '@swc/core'
 
   - package-ecosystem: 'github-actions'
     directory: '/'

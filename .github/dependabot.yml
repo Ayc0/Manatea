@@ -24,6 +24,11 @@ updates:
           - 'tsdown'
           - 'prettier'
           - '@swc/core'
+      test:
+        patterns:
+          - 'jest'
+          - 'jest-environment-jsdom'
+          - '@testing-library/react'
 
   - package-ecosystem: 'github-actions'
     directory: '/'

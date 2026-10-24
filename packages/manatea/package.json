@@ -38,11 +38,11 @@
     "build": "pnpm build:clean && pnpm build:action"
   },
   "devDependencies": {
-    "@swc/core": "^1.16.13",
+    "@swc/core": "^1.16.18",
     "@swc/jest": "^0.2.39",
     "@types/jest": "^30.0.0",
     "jest": "^30.5.2",
-    "tsdown": "^0.23.0",
+    "tsdown": "^0.23.1",
     "typescript": "^7.0.2"
   }
 }
